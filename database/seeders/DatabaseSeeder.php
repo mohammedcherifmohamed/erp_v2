@@ -202,6 +202,7 @@ class DatabaseSeeder extends Seeder
             'enrolled_count' => 2,
             'is_public' => true,
             'price' => 5000,
+            'reduction_price' => 4500,
             'homeroom_teacher_id' => $teacher1->id,
         ]);
 
@@ -236,6 +237,7 @@ class DatabaseSeeder extends Seeder
             'teacher_id' => $teacher1->id,
             'sessions_count' => 40,
             'credits' => 4,
+            'price' => 3000,
         ]);
 
         $course2 = Course::create([
@@ -246,6 +248,7 @@ class DatabaseSeeder extends Seeder
             'teacher_id' => $teacher2->id,
             'sessions_count' => 30,
             'credits' => 3,
+            'price' => 2500,
         ]);
 
         $course3 = Course::create([
@@ -256,6 +259,7 @@ class DatabaseSeeder extends Seeder
             'teacher_id' => $teacher1->id,
             'sessions_count' => 40,
             'credits' => 4,
+            'price' => 3000,
         ]);
 
         // Enrollments

@@ -47,7 +47,7 @@ class GradeController extends Controller
         $this->auditService->logCreate($grade, $grade->toArray());
 
         return redirect()->route('admin.grades.index')
-            ->with('success', 'Grade created successfully.');
+            ->with('success', 'Classe créée avec succès.');
     }
 
     public function show(Grade $grade)
@@ -69,19 +69,19 @@ class GradeController extends Controller
         $this->auditService->logUpdate($grade, $old, $grade->toArray());
 
         return redirect()->route('admin.grades.index')
-            ->with('success', 'Grade updated successfully.');
+            ->with('success', 'Classe mise à jour avec succès.');
     }
 
     public function destroy(Grade $grade)
     {
         if ($grade->classes()->exists()) {
-            return back()->with('error', 'Cannot delete grade with existing classes.');
+            return back()->with('error', 'Impossible de supprimer la classe avec des classes existantes.');
         }
 
         $this->auditService->logDelete($grade, $grade->toArray());
         $grade->delete();
 
         return redirect()->route('admin.grades.index')
-            ->with('success', 'Grade deleted successfully.');
+            ->with('success', 'Classe supprimée avec succès.');
     }
 }

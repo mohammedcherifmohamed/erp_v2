@@ -46,7 +46,7 @@ class QuizController extends Controller
         $quiz = $this->quizService->createQuiz($request->validated());
 
         return redirect()->route('teacher.quizzes.show', $quiz)
-            ->with('success', 'Quiz created successfully.');
+            ->with('success', 'Quiz créé avec succès.');
     }
 
     public function show(Quiz $quiz)
@@ -74,7 +74,7 @@ class QuizController extends Controller
         $quiz->update($request->validated());
 
         return redirect()->route('teacher.quizzes.show', $quiz)
-            ->with('success', 'Quiz updated successfully.');
+            ->with('success', 'Quiz mis à jour avec succès.');
     }
 
     public function publish(Quiz $quiz)
@@ -83,7 +83,7 @@ class QuizController extends Controller
 
         $this->quizService->publishQuiz($quiz);
 
-        return back()->with('success', 'Quiz published successfully.');
+        return back()->with('success', 'Quiz publié avec succès.');
     }
 
     public function destroy(Quiz $quiz)
@@ -93,7 +93,7 @@ class QuizController extends Controller
         $quiz->delete();
 
         return redirect()->route('teacher.quizzes.index')
-            ->with('success', 'Quiz deleted.');
+            ->with('success', 'Quiz supprimé.');
     }
 
     public function correct(Quiz $quiz)
@@ -129,6 +129,6 @@ class QuizController extends Controller
         }
 
         return redirect()->route('teacher.quizzes.show', $quiz)
-            ->with('success', 'Corrections submitted successfully.');
+            ->with('success', 'Corrections soumises avec succès.');
     }
 }

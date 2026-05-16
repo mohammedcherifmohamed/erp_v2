@@ -2,7 +2,7 @@
 
 @section('title', $teacher->full_name)
 @section('page-title', $teacher->full_name)
-@section('page-subtitle', 'Teacher profile')
+@section('page-subtitle', 'Profil de l\'enseignant')
 
 @section('content')
 <div class="space-y-6">
@@ -17,33 +17,33 @@
                     <p class="text-sm text-gray-500">{{ $teacher->email }}</p>
                 </div>
                 <span class="badge-{{ $teacher->is_active ? 'success' : 'danger' }} inline-block">
-                    {{ $teacher->is_active ? 'Active' : 'Inactive' }}
+                    {{ $teacher->is_active ? 'Actif' : 'Inactif' }}
                 </span>
                 <div class="text-left space-y-2 pt-3 border-t">
-                    <div><p class="text-sm text-gray-500">Phone</p><p class="text-sm font-medium">{{ $teacher->phone ?? '-' }}</p></div>
-                    <div><p class="text-sm text-gray-500">Gender</p><p class="text-sm font-medium">{{ ucfirst($teacher->gender ?? '-') }}</p></div>
-                    <div><p class="text-sm text-gray-500">Specialization</p><p class="text-sm font-medium">{{ $teacher->specialization ?? '-' }}</p></div>
-                    <div><p class="text-sm text-gray-500">Nationality</p><p class="text-sm font-medium">{{ $teacher->nationality ?? '-' }}</p></div>
-                    <div><p class="text-sm text-gray-500">Hourly Rate</p><p class="text-sm font-medium">{{ number_format($teacher->hourly_rate ?? 0, 2) }}</p></div>
-                    <div><p class="text-sm text-gray-500">Wallet Balance</p><p class="text-sm font-semibold text-primary-600">{{ number_format($teacher->wallet_balance ?? 0, 2) }}</p></div>
+                    <div><p class="text-sm text-gray-500">Téléphone</p><p class="text-sm font-medium">{{ $teacher->phone ?? '-' }}</p></div>
+                    <div><p class="text-sm text-gray-500">Genre</p><p class="text-sm font-medium">{{ ucfirst($teacher->gender ?? '-') }}</p></div>
+                    <div><p class="text-sm text-gray-500">Spécialisation</p><p class="text-sm font-medium">{{ $teacher->specialization ?? '-' }}</p></div>
+                    <div><p class="text-sm text-gray-500">Nationalité</p><p class="text-sm font-medium">{{ $teacher->nationality ?? '-' }}</p></div>
+                    <div><p class="text-sm text-gray-500">Taux horaire</p><p class="text-sm font-medium">{{ number_format($teacher->hourly_rate ?? 0, 2) }}</p></div>
+                    <div><p class="text-sm text-gray-500">Solde du portefeuille</p><p class="text-sm font-semibold text-primary-600">{{ number_format($teacher->wallet_balance ?? 0, 2) }}</p></div>
                 </div>
             </div>
         </div>
         <div class="lg:col-span-3 space-y-6">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="font-semibold text-gray-900">Courses</h3>
+                    <h3 class="font-semibold text-gray-900">Cours</h3>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-container">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Course</th>
+                                    <th>Cours</th>
                                     <th>Code</th>
-                                    <th>Class</th>
-                                    <th>Sessions</th>
-                                    <th>Status</th>
+                                    <th>Section</th>
+                                    <th>Séances</th>
+                                    <th>Statut</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -55,12 +55,12 @@
                                         <td>{{ $course->class->name ?? '-' }}</td>
                                         <td>{{ $course->sessions_count }}</td>
                                         <td>
-                                            <span class="badge-{{ $course->is_active ? 'success' : 'danger' }}">{{ $course->is_active ? 'Active' : 'Inactive' }}</span>
+                                            <span class="badge-{{ $course->is_active ? 'success' : 'danger' }}">{{ $course->is_active ? 'Actif' : 'Inactif' }}</span>
                                         </td>
-                                        <td><a href="{{ route('admin.courses.show', $course) }}" class="text-sm text-primary-600">View</a></td>
+                                        <td><a href="{{ route('admin.courses.show', $course) }}" class="text-sm text-primary-600">Voir</a></td>
                                     </tr>
                                 @empty
-                                    <tr><td colspan="6" class="text-center text-gray-500 py-8">No courses assigned</td></tr>
+                                    <tr><td colspan="6" class="text-center text-gray-500 py-8">Aucun cours attribué</td></tr>
                                 @endforelse
                             </tbody>
                         </table>
@@ -69,18 +69,18 @@
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h3 class="font-semibold text-gray-900">Schedule</h3>
+                    <h3 class="font-semibold text-gray-900">Emploi du temps</h3>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-container">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Day</th>
-                                    <th>Course</th>
-                                    <th>Class</th>
-                                    <th>Time</th>
-                                    <th>Classroom</th>
+                                    <th>Jour</th>
+                                    <th>Cours</th>
+                                    <th>Section</th>
+                                    <th>Heure</th>
+                                    <th>Salle</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -93,7 +93,7 @@
                                         <td>{{ $schedule->classroom ?? '-' }}</td>
                                     </tr>
                                 @empty
-                                    <tr><td colspan="5" class="text-center text-gray-500 py-8">No schedules</td></tr>
+                                    <tr><td colspan="5" class="text-center text-gray-500 py-8">Aucun emploi du temps</td></tr>
                                 @endforelse
                             </tbody>
                         </table>
@@ -102,7 +102,7 @@
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h3 class="font-semibold text-gray-900">Contracts</h3>
+                    <h3 class="font-semibold text-gray-900">Contrats</h3>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-container">
@@ -110,9 +110,9 @@
                             <thead>
                                 <tr>
                                     <th>Type</th>
-                                    <th>Rate</th>
-                                    <th>Course / Class</th>
-                                    <th>Status</th>
+                                    <th>Taux</th>
+                                    <th>Cours / Section</th>
+                                    <th>Statut</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -123,12 +123,12 @@
                                         <td>{{ number_format($contract->rate, 2) }}</td>
                                         <td>{{ $contract->course->name ?? $contract->class->name ?? '-' }}</td>
                                         <td>
-                                            <span class="badge-{{ $contract->is_active ? 'success' : 'danger' }}">{{ $contract->is_active ? 'Active' : 'Inactive' }}</span>
+                                            <span class="badge-{{ $contract->is_active ? 'success' : 'danger' }}">{{ $contract->is_active ? 'Actif' : 'Inactif' }}</span>
                                         </td>
-                                        <td><a href="{{ route('admin.teacher-contracts.show', $contract) }}" class="text-sm text-primary-600">View</a></td>
+                                        <td><a href="{{ route('admin.teacher-contracts.show', $contract) }}" class="text-sm text-primary-600">Voir</a></td>
                                     </tr>
                                 @empty
-                                    <tr><td colspan="5" class="text-center text-gray-500 py-8">No contracts</td></tr>
+                                    <tr><td colspan="5" class="text-center text-gray-500 py-8">Aucun contrat</td></tr>
                                 @endforelse
                             </tbody>
                         </table>
@@ -137,7 +137,7 @@
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h3 class="font-semibold text-gray-900">Wallet Transactions</h3>
+                    <h3 class="font-semibold text-gray-900">Transactions du portefeuille</h3>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-container">
@@ -146,7 +146,7 @@
                                 <tr>
                                     <th>Date</th>
                                     <th>Description</th>
-                                    <th>Amount</th>
+                                    <th>Montant</th>
                                     <th>Type</th>
                                 </tr>
                             </thead>
@@ -161,7 +161,7 @@
                                         <td><span class="badge-{{ $txn->type === 'credit' ? 'success' : 'danger' }}">{{ ucfirst($txn->type) }}</span></td>
                                     </tr>
                                 @empty
-                                    <tr><td colspan="4" class="text-center text-gray-500 py-8">No transactions</td></tr>
+                                    <tr><td colspan="4" class="text-center text-gray-500 py-8">Aucune transaction</td></tr>
                                 @endforelse
                             </tbody>
                         </table>
@@ -171,8 +171,8 @@
         </div>
     </div>
     <div class="flex gap-3">
-        <a href="{{ route('admin.teachers.edit', $teacher) }}" class="btn-primary">Edit Teacher</a>
-        <a href="{{ route('admin.teachers.index') }}" class="btn-outline">Back to Teachers</a>
+        <a href="{{ route('admin.teachers.edit', $teacher) }}" class="btn-primary">Modifier l'enseignant</a>
+        <a href="{{ route('admin.teachers.index' ) }}" class="btn-outline">Retour aux enseignants</a>
     </div>
 </div>
 @endsection

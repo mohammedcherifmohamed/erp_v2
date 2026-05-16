@@ -21,7 +21,7 @@ class StoreCourseRequest extends FormRequest
             'description' => ['nullable', 'string', 'max:1000'],
             'teacher_id' => ['required', 'exists:users,id'],
             'sessions_count' => ['nullable', 'integer', 'min:0'],
-            'credits' => ['nullable', 'integer', 'min:1', 'max:10'],
+            'price' => ['nullable', 'numeric', 'min:0'],
         ];
     }
 }

@@ -17,6 +17,7 @@ class Classe extends Model
         'enrolled_count',
         'is_public',
         'price',
+        'reduction_price',
         'image',
         'description',
         'homeroom_teacher_id',
@@ -30,6 +31,7 @@ class Classe extends Model
             'enrolled_count' => 'integer',
             'is_public' => 'boolean',
             'price' => 'decimal:2',
+            'reduction_price' => 'decimal:2',
             'is_active' => 'boolean',
         ];
     }
@@ -90,6 +92,16 @@ class Classe extends Model
     public function getRemainingSeatsAttribute()
     {
         return $this->capacity - $this->enrolled_count;
+    }
+
+    public function getTotalCoursesPriceAttribute()
+    {
+        return $this->courses->sum('price');
+    }
+
+    public function hasReductionAttribute(): bool
+    {
+        return !is_null($this->reduction_price) && $this->reduction_price < $this->total_courses_price;
     }
 
     public function scopeActive($query)

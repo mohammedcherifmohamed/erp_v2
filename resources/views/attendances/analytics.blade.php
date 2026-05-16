@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Attendance Analytics')
-@section('page-title', 'Attendance Analytics')
-@section('page-subtitle', 'Track attendance statistics')
+@section('title', 'Analyses de présence')
+@section('page-title', 'Analyses de présence')
+@section('page-subtitle', 'Suivre les statistiques de présence')
 
 @section('content')
 <div class="space-y-6">
@@ -10,7 +10,7 @@
         <div class="card">
             <div class="card-body text-center">
                 <p class="text-3xl font-bold text-success-600">{{ $presentPercent ?? 0 }}%</p>
-                <p class="text-sm text-gray-500 mt-1">Present Rate</p>
+                <p class="text-sm text-gray-500 mt-1">Taux de présence</p>
             </div>
         </div>
         <div class="card">
@@ -22,34 +22,34 @@
         <div class="card">
             <div class="card-body text-center">
                 <p class="text-3xl font-bold text-warning-600">{{ $lateCount ?? 0 }}</p>
-                <p class="text-sm text-gray-500 mt-1">Late Arrivals</p>
+                <p class="text-sm text-gray-500 mt-1">Retards</p>
             </div>
         </div>
         <div class="card">
             <div class="card-body text-center">
                 <p class="text-3xl font-bold text-gray-600">{{ $excusedCount ?? 0 }}</p>
-                <p class="text-sm text-gray-500 mt-1">Excused</p>
+                <p class="text-sm text-gray-500 mt-1">Excusés</p>
             </div>
         </div>
     </div>
 
     <div class="card">
         <div class="card-header">
-            <h3 class="font-semibold text-gray-900">Per-Course Breakdown</h3>
+            <h3 class="font-semibold text-gray-900">Répartition par cours</h3>
         </div>
         <div class="card-body p-0">
             <div class="table-container">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Course</th>
-                            <th>Class</th>
-                            <th>Total Sessions</th>
-                            <th>Present</th>
+                            <th>Cours</th>
+                            <th>Section</th>
+                            <th>Total séances</th>
+                            <th>Présent</th>
                             <th>Absent</th>
-                            <th>Late</th>
-                            <th>Excused</th>
-                            <th>Present %</th>
+                            <th>Retard</th>
+                            <th>Excusé</th>
+                            <th>% Présent</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,7 +72,7 @@
                                 </td>
                             </tr>
                         @empty
-                            <tr><td colspan="8" class="text-center text-gray-500 py-8">No data available</td></tr>
+                            <tr><td colspan="8" class="text-center text-gray-500 py-8">Aucune donnée disponible</td></tr>
                         @endforelse
                     </tbody>
                 </table>

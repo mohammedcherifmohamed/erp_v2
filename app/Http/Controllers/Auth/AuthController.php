@@ -17,8 +17,12 @@ class AuthController extends Controller
         private readonly AuditService $auditService,
     ) {}
 
-    public function showLogin()
+    public function showLogin(Request $request)
     {
+        if ($request->has('redirect')) {
+            $request->session()->put('url.intended', $request->redirect);
+        }
+
         return view('auth.login');
     }
 

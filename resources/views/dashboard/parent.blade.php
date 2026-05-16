@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Parent Dashboard')
-@section('page-title', 'Parent Dashboard')
-@section('page-subtitle', 'Monitor your children\'s progress')
+@section('title', 'Tableau de bord Parent')
+@section('page-title', 'Tableau de bord Parent')
+@section('page-subtitle', 'Suivez les progrès de vos enfants')
 
 @section('content')
 <div class="space-y-6">
@@ -19,19 +19,19 @@
                     </div>
                 </div>
                 <div class="flex gap-2">
-                    <a href="{{ route('parent.children.schedule', $child) }}" class="btn-sm btn-outline">Schedule</a>
-                    <a href="{{ route('parent.children.invoices', $child) }}" class="btn-sm btn-outline">Invoices</a>
+                    <a href="{{ route('parent.children.schedule', $child) }}" class="btn-sm btn-outline">Emploi du temps</a>
+                    <a href="{{ route('parent.children.invoices', $child) }}" class="btn-sm btn-outline">Factures</a>
                 </div>
             </div>
             <div class="card-body">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="text-center p-4 bg-gray-50 rounded-lg">
                         <p class="text-2xl font-bold text-primary-600">{{ $child->enrollments->count() }}</p>
-                        <p class="text-sm text-gray-500">Enrollments</p>
+                        <p class="text-sm text-gray-500">Inscriptions</p>
                     </div>
                     <div class="text-center p-4 bg-gray-50 rounded-lg">
                         <p class="text-2xl font-bold text-success-600">{{ $child->enrollments->where('status', 'approved')->count() }}</p>
-                        <p class="text-sm text-gray-500">Active</p>
+                        <p class="text-sm text-gray-500">Actif</p>
                     </div>
                     <div class="text-center p-4 bg-gray-50 rounded-lg">
                         <p class="text-2xl font-bold text-warning-600">{{ $child->attendanceRecords->where('status', 'absent')->count() }}</p>
@@ -46,8 +46,8 @@
                 <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                 </svg>
-                <h3 class="text-lg font-medium text-gray-900">No children linked</h3>
-                <p class="text-sm text-gray-500 mt-1">Contact the administration to link your children to your account.</p>
+                <h3 class="text-lg font-medium text-gray-900">Aucun enfant lié</h3>
+                <p class="text-sm text-gray-500 mt-1">Contactez l'administration pour lier vos enfants à votre compte.</p>
             </div>
         </div>
     @endforelse

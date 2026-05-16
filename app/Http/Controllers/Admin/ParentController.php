@@ -73,7 +73,7 @@ class ParentController extends Controller
         $this->auditService->logCreate($user, $user->toArray());
 
         return redirect()->route('admin.parents.index')
-            ->with('success', 'Parent created successfully.');
+            ->with('success', 'Parent créé avec succès.');
     }
 
     public function show(User $parent)
@@ -115,7 +115,7 @@ class ParentController extends Controller
         $parent->parentProfile()->update($data);
 
         return redirect()->route('admin.parents.index')
-            ->with('success', 'Parent updated successfully.');
+            ->with('success', 'Parent mis à jour avec succès.');
     }
 
     public function destroy(User $parent)
@@ -126,6 +126,6 @@ class ParentController extends Controller
         $parent->delete();
 
         return redirect()->route('admin.parents.index')
-            ->with('success', 'Parent deleted.');
+            ->with('success', 'Parent supprimé.');
     }
 }

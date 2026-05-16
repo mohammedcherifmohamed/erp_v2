@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [LandingPageController::class, 'home'])->name('home');
 Route::get('/courses', [LandingPageController::class, 'courses'])->name('courses');
 Route::get('/courses/{classe}', [LandingPageController::class, 'courseDetails'])->name('courses.details');
+Route::post('/courses/{classe}/enroll', [LandingPageController::class, 'enroll'])->middleware('auth')->name('courses.enroll');
+Route::post('/courses/{course}/enroll-course', [LandingPageController::class, 'enrollCourse'])->middleware('auth')->name('courses.enroll-course');
+Route::get('/enrollments/{enrollment}/success', [LandingPageController::class, 'enrollmentSuccess'])->middleware('auth')->name('enrollments.success');
 Route::get('/teacher/register', [LandingPageController::class, 'teacherRegister'])->name('teacher.register');
 Route::post('/teacher/register', [LandingPageController::class, 'teacherRegisterStore'])->name('teacher.register.store');
 

@@ -54,7 +54,7 @@ class ClasseController extends Controller
         $this->auditService->logCreate($classe, $classe->toArray());
 
         return redirect()->route('admin.classes.index')
-            ->with('success', 'Class created successfully.');
+            ->with('success', 'Classe créée avec succès.');
     }
 
     public function show(Classe $classe)
@@ -93,13 +93,13 @@ class ClasseController extends Controller
         $this->auditService->logUpdate($classe, $old, $classe->toArray());
 
         return redirect()->route('admin.classes.index')
-            ->with('success', 'Class updated successfully.');
+            ->with('success', 'Classe mise à jour avec succès.');
     }
 
     public function destroy(Classe $classe)
     {
         if ($classe->enrollments()->where('status', 'approved')->exists()) {
-            return back()->with('error', 'Cannot delete class with active enrollments.');
+            return back()->with('error', 'Impossible de supprimer la classe avec des inscriptions actives.');
         }
 
         if ($classe->image) {
@@ -110,6 +110,6 @@ class ClasseController extends Controller
         $classe->delete();
 
         return redirect()->route('admin.classes.index')
-            ->with('success', 'Class deleted successfully.');
+            ->with('success', 'Classe supprimée avec succès.');
     }
 }

@@ -42,7 +42,7 @@ class ScheduleController extends Controller
         try {
             $schedule = $this->scheduleService->create($request->validated());
             return redirect()->route('admin.schedules.index')
-                ->with('success', 'Schedule created successfully.');
+                ->with('success', 'Emploi du temps créé avec succès.');
         } catch (\RuntimeException $e) {
             return back()->with('error', $e->getMessage())->withInput();
         }
@@ -66,7 +66,7 @@ class ScheduleController extends Controller
         try {
             $this->scheduleService->update($schedule, $request->validated());
             return redirect()->route('admin.schedules.index')
-                ->with('success', 'Schedule updated successfully.');
+                ->with('success', 'Emploi du temps mis à jour avec succès.');
         } catch (\RuntimeException $e) {
             return back()->with('error', $e->getMessage())->withInput();
         }
@@ -76,7 +76,7 @@ class ScheduleController extends Controller
     {
         $schedule->delete();
         return redirect()->route('admin.schedules.index')
-            ->with('success', 'Schedule deleted successfully.');
+            ->with('success', 'Emploi du temps supprimé avec succès.');
     }
 
     public function weekly($classId = null)

@@ -81,7 +81,7 @@ class StudentController extends Controller
         $this->auditService->logCreate($user, $user->toArray());
 
         return redirect()->route('admin.students.index')
-            ->with('success', 'Student created successfully.');
+            ->with('success', 'Étudiant créé avec succès.');
     }
 
     public function show(User $student)
@@ -93,6 +93,8 @@ class StudentController extends Controller
         $student->load([
             'studentProfile',
             'enrollments.classe.grade.level',
+            'enrollments.classe.courses',
+            'enrollments.course',
             'invoices',
             'attendanceRecords' => fn($q) => $q->latest()->take(30),
         ]);
@@ -133,7 +135,7 @@ class StudentController extends Controller
         $student->studentProfile()->update($data);
 
         return redirect()->route('admin.students.index')
-            ->with('success', 'Student updated successfully.');
+            ->with('success', 'Étudiant mis à jour avec succès.');
     }
 
     public function destroy(User $student)
@@ -144,6 +146,6 @@ class StudentController extends Controller
         $student->delete();
 
         return redirect()->route('admin.students.index')
-            ->with('success', 'Student deleted.');
+            ->with('success', 'Étudiant supprimé.');
     }
 }

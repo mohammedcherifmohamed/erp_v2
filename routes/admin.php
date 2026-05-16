@@ -22,7 +22,7 @@ Route::middleware(['auth', 'role:is-admin'])->prefix('admin')->name('admin.')->g
 
     Route::resource('levels', LevelController::class);
     Route::resource('grades', GradeController::class);
-    Route::resource('classes', ClasseController::class);
+    Route::resource('classes', ClasseController::class)->parameters(['classes' => 'classe']);
     Route::resource('courses', CourseController::class);
 
     Route::resource('enrollments', EnrollmentController::class)->except(['edit', 'update']);

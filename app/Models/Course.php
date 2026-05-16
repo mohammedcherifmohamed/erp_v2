@@ -15,6 +15,7 @@ class Course extends Model
         'teacher_id',
         'sessions_count',
         'credits',
+        'price',
         'is_active',
     ];
 
@@ -23,6 +24,7 @@ class Course extends Model
         return [
             'sessions_count' => 'integer',
             'credits' => 'integer',
+            'price' => 'decimal:2',
             'is_active' => 'boolean',
         ];
     }

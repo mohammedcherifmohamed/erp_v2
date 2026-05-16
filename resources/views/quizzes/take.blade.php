@@ -2,7 +2,7 @@
 
 @section('title', $quiz->title)
 @section('page-title', $quiz->title)
-@section('page-subtitle', 'Take quiz')
+@section('page-subtitle', 'Passer le quiz')
 
 @section('content')
 <div class="max-w-3xl mx-auto">
@@ -10,8 +10,8 @@
         <div class="card-body text-center">
             <p class="text-sm text-gray-500">{{ $quiz->course->name ?? '' }}</p>
             <p class="text-sm text-gray-500 mt-1">
-                {{ $quiz->questions_count }} Questions | {{ $quiz->total_points }} Total Points
-                @if($quiz->time_limit) | Time Limit: {{ $quiz->time_limit }} min @endif
+                {{ $quiz->questions_count }} Questions | {{ $quiz->total_points }} Points totaux
+                @if($quiz->time_limit) | Limite de temps : {{ $quiz->time_limit }} min @endif
             </p>
         </div>
     </div>
@@ -30,11 +30,11 @@
                         <div class="space-y-1">
                             <label class="inline-flex items-center gap-2">
                                 <input type="radio" name="answers[{{ $question->id }}]" value="true" class="rounded border-gray-300 text-primary-600">
-                                <span>True</span>
+                                <span>Vrai</span>
                             </label>
                             <label class="inline-flex items-center gap-2 ml-6">
                                 <input type="radio" name="answers[{{ $question->id }}]" value="false" class="rounded border-gray-300 text-primary-600">
-                                <span>False</span>
+                                <span>Faux</span>
                             </label>
                         </div>
                     @elseif($question->type === 'mcq' && $question->options)
@@ -50,7 +50,7 @@
                             @endforeach
                         </div>
                     @else
-                        <textarea name="answers[{{ $question->id }}]" rows="3" class="input w-full" placeholder="Your answer..."></textarea>
+                        <textarea name="answers[{{ $question->id }}]" rows="3" class="input w-full" placeholder="Votre réponse..."></textarea>
                     @endif
                 </div>
             </div>
@@ -58,8 +58,8 @@
 
         <div class="card">
             <div class="card-body flex items-center justify-between">
-                <p class="text-sm text-gray-500">Make sure you've answered all questions before submitting.</p>
-                <button type="submit" class="btn-primary" onclick="return confirm('Submit your answers?')">Submit Quiz</button>
+                <p class="text-sm text-gray-500">Assurez-vous d'avoir répondu à toutes les questions avant de soumettre.</p>
+                <button type="submit" class="btn-primary" onclick="return confirm('Soumettre vos réponses ?')">Soumettre le quiz</button>
             </div>
         </div>
     </form>

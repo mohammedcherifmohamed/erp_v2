@@ -2,24 +2,24 @@
 
 @section('title', $level->name)
 @section('page-title', $level->name)
-@section('page-subtitle', 'Level details')
+@section('page-subtitle', 'Détails du niveau')
 
 @section('content')
 <div class="space-y-6">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="card lg:col-span-2">
             <div class="card-header">
-                <h3 class="font-semibold text-gray-900">Grades in this Level</h3>
+                <h3 class="font-semibold text-gray-900">Classes dans ce niveau</h3>
             </div>
             <div class="card-body p-0">
                 <div class="table-container">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Grade Name</th>
+                                <th>Nom de la classe</th>
                                 <th>Code</th>
-                                <th>Classes</th>
-                                <th>Status</th>
+                                <th>Sections</th>
+                                <th>Statut</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -31,13 +31,13 @@
                                     <td>{{ $grade->classes->count() }}</td>
                                     <td>
                                         <span class="badge-{{ $grade->is_active ? 'success' : 'danger' }}">
-                                            {{ $grade->is_active ? 'Active' : 'Inactive' }}
+                                            {{ $grade->is_active ? 'Actif' : 'Inactif' }}
                                         </span>
                                     </td>
-                                    <td><a href="{{ route('admin.grades.show', $grade) }}" class="text-sm text-primary-600">View</a></td>
+                                    <td><a href="{{ route('admin.grades.show', $grade) }}" class="text-sm text-primary-600">Voir</a></td>
                                 </tr>
                             @empty
-                                <tr><td colspan="5" class="text-center text-gray-500 py-8">No grades in this level</td></tr>
+                                <tr><td colspan="5" class="text-center text-gray-500 py-8">Aucune classe dans ce niveau</td></tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -46,7 +46,7 @@
         </div>
         <div class="card">
             <div class="card-header">
-                <h3 class="font-semibold text-gray-900">Details</h3>
+                <h3 class="font-semibold text-gray-900">Détails</h3>
             </div>
             <div class="card-body space-y-4">
                 <div>
@@ -54,31 +54,31 @@
                     <p class="font-medium">{{ $level->code }}</p>
                 </div>
                 <div>
-                    <p class="text-sm text-gray-500">Arabic Name</p>
+                    <p class="text-sm text-gray-500">Nom arabe</p>
                     <p class="font-medium">{{ $level->name_ar ?? '-' }}</p>
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Description</p>
-                    <p class="text-sm text-gray-700">{{ $level->description ?? 'No description' }}</p>
+                    <p class="text-sm text-gray-700">{{ $level->description ?? 'Aucune description' }}</p>
                 </div>
                 <div>
-                    <p class="text-sm text-gray-500">Sort Order</p>
+                    <p class="text-sm text-gray-500">Ordre</p>
                     <p class="font-medium">{{ $level->sort_order }}</p>
                 </div>
                 <div>
-                    <p class="text-sm text-gray-500">Status</p>
-                    <span class="badge-{{ $level->is_active ? 'success' : 'danger' }}">{{ $level->is_active ? 'Active' : 'Inactive' }}</span>
+                    <p class="text-sm text-gray-500">Statut</p>
+                    <span class="badge-{{ $level->is_active ? 'success' : 'danger' }}">{{ $level->is_active ? 'Actif' : 'Inactif' }}</span>
                 </div>
                 <div>
-                    <p class="text-sm text-gray-500">Created</p>
+                    <p class="text-sm text-gray-500">Créé le</p>
                     <p class="text-sm">{{ $level->created_at->format('M d, Y') }}</p>
                 </div>
             </div>
         </div>
     </div>
     <div class="flex gap-3">
-        <a href="{{ route('admin.levels.edit', $level) }}" class="btn-primary">Edit Level</a>
-        <a href="{{ route('admin.levels.index') }}" class="btn-outline">Back to Levels</a>
+        <a href="{{ route('admin.levels.edit', $level) }}" class="btn-primary">Modifier le niveau</a>
+        <a href="{{ route('admin.levels.index') }}" class="btn-outline">Retour aux niveaux</a>
     </div>
 </div>
 @endsection

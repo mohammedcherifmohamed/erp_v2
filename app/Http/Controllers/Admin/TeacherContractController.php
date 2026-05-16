@@ -45,7 +45,7 @@ class TeacherContractController extends Controller
         $this->auditService->logCreate($contract, $contract->toArray());
 
         return redirect()->route('admin.teacher-contracts.index')
-            ->with('success', 'Contract created successfully.');
+            ->with('success', 'Contrat créé avec succès.');
     }
 
     public function show(TeacherContract $teacherContract)
@@ -69,13 +69,13 @@ class TeacherContractController extends Controller
         $this->auditService->logUpdate($teacherContract, $old, $teacherContract->toArray());
 
         return redirect()->route('admin.teacher-contracts.index')
-            ->with('success', 'Contract updated successfully.');
+            ->with('success', 'Contrat mis à jour avec succès.');
     }
 
     public function destroy(TeacherContract $teacherContract)
     {
         $teacherContract->delete();
         return redirect()->route('admin.teacher-contracts.index')
-            ->with('success', 'Contract deleted.');
+            ->with('success', 'Contrat supprimé.');
     }
 }

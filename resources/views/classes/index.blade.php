@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Classes')
-@section('page-title', 'Classes')
-@section('page-subtitle', 'Gérer les classes académiques')
+@section('title', 'Sections')
+@section('page-title', 'Sections')
+@section('page-subtitle', 'Gérer les sections académiques')
 
 @section('content')
 <div class="card" data-search="{{ route('admin.classes.index') }}">

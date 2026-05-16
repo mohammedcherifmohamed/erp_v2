@@ -1,20 +1,20 @@
 @extends('layouts.app')
 
-@section('title', 'Withdrawal Requests')
-@section('page-title', 'Withdrawal Requests')
-@section('page-subtitle', 'Manage teacher withdrawal requests')
+@section('title', 'Demandes de retrait')
+@section('page-title', 'Demandes de retrait')
+@section('page-subtitle', 'Gérer les demandes de retrait des enseignants')
 
 @section('content')
 <div class="card">
     <div class="card-header flex items-center justify-between">
         <form method="GET" class="flex items-center gap-2">
             <select name="status" class="input w-40">
-                <option value="">All Status</option>
-                <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Pending</option>
-                <option value="approved" {{ request('status') === 'approved' ? 'selected' : '' }}>Approved</option>
-                <option value="rejected" {{ request('status') === 'rejected' ? 'selected' : '' }}>Rejected</option>
+                <option value="">Tous les statuts</option>
+                <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>En attente</option>
+                <option value="approved" {{ request('status') === 'approved' ? 'selected' : '' }}>Approuvé</option>
+                <option value="rejected" {{ request('status') === 'rejected' ? 'selected' : '' }}>Refusé</option>
             </select>
-            <button type="submit" class="btn-secondary">Filter</button>
+            <button type="submit" class="btn-secondary">Filtrer</button>
         </form>
     </div>
     <div class="card-body p-0">
@@ -22,10 +22,10 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Teacher</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                        <th>Method</th>
+                        <th>Enseignant</th>
+                        <th>Montant</th>
+                        <th>Statut</th>
+                        <th>Méthode</th>
                         <th>Date</th>
                         <th class="text-right">Actions</th>
                     </tr>
@@ -47,11 +47,11 @@
                                     @if($withdrawal->status === 'pending')
                                         <form method="POST" action="{{ route('admin.teacher-withdrawals.approve', $withdrawal) }}" class="inline">
                                             @csrf
-                                            <button type="submit" class="btn-sm btn-success">Approve</button>
+                                            <button type="submit" class="btn-sm btn-success">Approuver</button>
                                         </form>
                                         <form method="POST" action="{{ route('admin.teacher-withdrawals.reject', $withdrawal) }}" class="inline">
                                             @csrf
-                                            <button type="submit" class="btn-sm btn-danger" onclick="return confirm('Reject this withdrawal?')">Reject</button>
+                                            <button type="submit" class="btn-sm btn-danger" onclick="return confirm('Refuser ce retrait ?')">Refuser</button>
                                         </form>
                                     @endif
                                 </div>
@@ -59,7 +59,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center text-gray-500 py-8">No withdrawal requests</td>
+                            <td colspan="6" class="text-center text-gray-500 py-8">Aucune demande de retrait</td>
                         </tr>
                     @endforelse
                 </tbody>

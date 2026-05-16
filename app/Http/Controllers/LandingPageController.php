@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classe;
+use App\Models\Course;
+use App\Models\Enrollment;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -11,36 +14,19 @@ class LandingPageController extends Controller
 {
     public function home()
     {
-        $classes = Classe::with([
+        $publicClasses = Classe::with([
             'grade.level',
             'homeroomTeacher.teacherProfile',
-            'courses.teacher.teacherProfile',
+            'courses',
             'schedules',
         ])
             ->public()
             ->active()
-            ->get()
-            ->map(fn($c) => [
-                'id' => $c->id,
-                'name' => $c->name,
-                'name_ar' => $c->name_ar,
-                'image' => $c->image,
-                'price' => $c->price,
-                'capacity' => $c->capacity,
-                'enrolled_count' => $c->enrolled_count,
-                'remaining_seats' => $c->remaining_seats,
-                'description' => $c->description,
-                'is_full' => $c->remaining_seats <= 0,
-                'grade' => $c->grade?->name,
-                'level' => $c->grade?->level?->name,
-                'homeroom_teacher' => $c->homeroomTeacher?->full_name,
-                'courses_count' => $c->courses->count(),
-                'schedules_count' => $c->schedules->count(),
-            ]);
+            ->get();
 
         $levels = \App\Models\Level::active()->ordered()->get();
 
-        return view('welcome', compact('classes', 'levels'));
+        return view('welcome', compact('publicClasses', 'levels'));
     }
 
     public function courses()
@@ -92,6 +78,83 @@ class LandingPageController extends Controller
         ]);
 
         return view('public.course-details', compact('classe'));
+    }
+
+    public function enroll(Request $request, Classe $classe)
+    {
+        if (!$classe->is_public || !$classe->is_active) {
+            return redirect()->route('courses')->with('error', 'Cette classe n\'est pas disponible.');
+        }
+
+        if ($classe->remaining_seats <= 0) {
+            return back()->with('error', 'Désolé, cette classe est complète.');
+        }
+
+        $user = $request->user();
+
+        if (!$user->isStudent()) {
+            return back()->with('error', 'Seuls les étudiants peuvent s\'inscrire aux cours.');
+        }
+
+        $existing = Enrollment::where('student_id', $user->id)
+            ->where('class_id', $classe->id)
+            ->first();
+
+        if ($existing) {
+            return back()->with('info', 'Vous êtes déjà inscrit à cette classe ou votre demande est en attente.');
+        }
+
+        $enrollment = Enrollment::create([
+            'student_id' => $user->id,
+            'class_id' => $classe->id,
+            'status' => 'pending',
+            'expires_at' => now()->addDays(7),
+        ]);
+
+        return redirect()->route('enrollments.success', $enrollment);
+    }
+
+    public function enrollCourse(Request $request, Course $course)
+    {
+        $classe = $course->classe;
+
+        if (!$classe->is_public || !$classe->is_active) {
+            return redirect()->route('courses')->with('error', 'Ce cours n\'est pas disponible.');
+        }
+
+        $user = $request->user();
+
+        if (!$user->isStudent()) {
+            return back()->with('error', 'Seuls les étudiants peuvent s\'inscrire aux cours.');
+        }
+
+        $existing = Enrollment::where('student_id', $user->id)
+            ->where('course_id', $course->id)
+            ->first();
+
+        if ($existing) {
+            return back()->with('info', 'Vous êtes déjà inscrit à ce cours ou votre demande est en attente.');
+        }
+
+        $enrollment = Enrollment::create([
+            'student_id' => $user->id,
+            'class_id' => $classe->id,
+            'course_id' => $course->id,
+            'status' => 'pending',
+            'expires_at' => now()->addDays(7),
+        ]);
+
+        return redirect()->route('enrollments.success', $enrollment);
+    }
+
+    public function enrollmentSuccess(Enrollment $enrollment)
+    {
+        if ($enrollment->student_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $enrollment->load(['classe.grade.level', 'classe.courses', 'course']);
+        return view('enrollments.success', compact('enrollment'));
     }
 
     public function teacherRegister()

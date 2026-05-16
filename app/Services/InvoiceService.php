@@ -18,21 +18,30 @@ class InvoiceService
     {
         $classe = $enrollment->classe;
         $student = $enrollment->student;
+        $course = $enrollment->course;
+
+        if ($course) {
+            $totalAmount = $course->price ?? 0;
+            $description = "Inscription au cours: {$course->name} ({$classe->name})";
+        } else {
+            $totalAmount = $classe->reduction_price ?? $classe->total_courses_price ?? $classe->price ?? 0;
+            $description = "Forfait complet: {$classe->name} ({$classe->courses->count()} cours)";
+        }
 
         $invoiceNumber = 'INV-' . date('Y') . '-' . Str::padLeft(Invoice::count() + 1, 6, '0');
 
-        return DB::transaction(function () use ($classe, $student, $invoiceNumber, $enrollment) {
+        return DB::transaction(function () use ($classe, $student, $invoiceNumber, $enrollment, $totalAmount, $description) {
             $invoice = Invoice::create([
                 'invoice_number' => $invoiceNumber,
                 'student_id' => $student->id,
                 'parent_id' => $student->studentProfile?->parent_id,
                 'class_id' => $classe->id,
-                'total_amount' => $classe->price ?? 0,
+                'total_amount' => $totalAmount,
                 'paid_amount' => 0,
-                'remaining_amount' => $classe->price ?? 0,
+                'remaining_amount' => $totalAmount,
                 'status' => 'unpaid',
                 'due_date' => now()->addDays(30),
-                'description' => "Enrollment fee for {$classe->name}",
+                'description' => $description,
             ]);
 
             $this->auditService->logCreate($invoice, $invoice->toArray());

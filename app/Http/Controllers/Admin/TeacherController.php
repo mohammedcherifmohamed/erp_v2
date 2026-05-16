@@ -83,7 +83,7 @@ class TeacherController extends Controller
         $this->auditService->logCreate($user, $user->toArray());
 
         return redirect()->route('admin.teachers.index')
-            ->with('success', 'Teacher created successfully.');
+            ->with('success', 'Enseignant créé avec succès.');
     }
 
     public function show(User $teacher)
@@ -135,7 +135,7 @@ class TeacherController extends Controller
         }
 
         return redirect()->route('admin.teachers.index')
-            ->with('success', 'Teacher updated successfully.');
+            ->with('success', 'Enseignant mis à jour avec succès.');
     }
 
     public function destroy(User $teacher)
@@ -146,6 +146,6 @@ class TeacherController extends Controller
         $teacher->delete();
 
         return redirect()->route('admin.teachers.index')
-            ->with('success', 'Teacher deleted.');
+            ->with('success', 'Enseignant supprimé.');
     }
 }

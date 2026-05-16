@@ -20,7 +20,18 @@
                     <td>{{ $schedule->course->classe->name ?? '-' }}</td>
                     <td>{{ $schedule->course->teacher->full_name ?? '-' }}</td>
                     <td>{{ $schedule->classroom ?? '-' }}</td>
-                    <td><span class="badge-gray">{{ $schedule->day_of_week }}</span></td>
+                    <td><span class="badge-gray">
+    @switch($schedule->day_of_week)
+        @case('monday') Lundi @break
+        @case('tuesday') Mardi @break
+        @case('wednesday') Mercredi @break
+        @case('thursday') Jeudi @break
+        @case('friday') Vendredi @break
+        @case('saturday') Samedi @break
+        @case('sunday') Dimanche @break
+        @default {{ $schedule->day_of_week }}
+    @endswitch
+</span></td>
                     <td>{{ $schedule->start_time->format('H:i') }}</td>
                     <td>{{ $schedule->end_time->format('H:i') }}</td>
                     <td>

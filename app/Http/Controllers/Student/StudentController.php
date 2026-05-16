@@ -48,7 +48,7 @@ class StudentController extends Controller
 
         if ($existing) {
             return redirect()->route('student.quizzes.results', $quiz)
-                ->with('info', 'You have already completed this quiz.');
+                ->with('info', 'Vous avez déjà complété ce quiz.');
         }
 
         $quiz->load('questions');
@@ -62,7 +62,7 @@ class StudentController extends Controller
             $result = $this->quizService->submitQuiz($quiz, $request->answers);
 
             return redirect()->route('student.quizzes.results', $quiz)
-                ->with('success', 'Quiz submitted successfully!');
+                ->with('success', 'Quiz soumis avec succès !');
         } catch (\RuntimeException $e) {
             return back()->with('error', $e->getMessage());
         }

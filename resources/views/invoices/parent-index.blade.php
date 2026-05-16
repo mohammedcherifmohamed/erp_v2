@@ -1,27 +1,27 @@
 @extends('layouts.app')
 
-@section('title', 'Invoices')
-@section('page-title', 'Invoices')
-@section('page-subtitle', "Invoices for {{ $student->full_name }}")
+@section('title', 'Factures')
+@section('page-title', 'Factures')
+@section('page-subtitle', "Factures pour {{ $student->full_name }}")
 
 @section('content')
 <div class="space-y-6">
     <div class="card">
         <div class="card-header">
-            <h3 class="font-semibold text-gray-900">{{ $student->full_name }} - Invoices</h3>
+            <h3 class="font-semibold text-gray-900">{{ $student->full_name }} - Factures</h3>
         </div>
         <div class="card-body p-0">
             <div class="table-container">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Invoice #</th>
-                            <th>Class</th>
+                            <th>N° Facture</th>
+                            <th>Section</th>
                             <th>Total</th>
-                            <th>Paid</th>
-                            <th>Remaining</th>
-                            <th>Status</th>
-                            <th>Due Date</th>
+                            <th>Payé</th>
+                            <th>Reste</th>
+                            <th>Statut</th>
+                            <th>Date d'échéance</th>
                             <th class="text-right">Actions</th>
                         </tr>
                     </thead>
@@ -40,12 +40,12 @@
                                 </td>
                                 <td>{{ $invoice->due_date->format('M d, Y') }}</td>
                                 <td class="text-right">
-                                    <a href="{{ route('parent.children.invoices.show', ['student' => $student->id, 'invoice' => $invoice->id]) }}" class="btn-sm btn-outline">View</a>
+                                    <a href="{{ route('parent.children.invoices.show', ['student' => $student->id, 'invoice' => $invoice->id]) }}" class="btn-sm btn-outline">Voir</a>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" class="text-center text-gray-500 py-8">No invoices found for this student</td>
+                                <td colspan="8" class="text-center text-gray-500 py-8">Aucune facture trouvée pour cet étudiant</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -59,6 +59,6 @@
         @endif
     </div>
 
-    <a href="{{ route('parent.children') }}" class="btn-outline">Back to Children</a>
+    <a href="{{ route('parent.children') }}" class="btn-outline">Retour aux enfants</a>
 </div>
 @endsection

@@ -58,7 +58,7 @@ class AttendanceController extends Controller
         }
 
         return redirect()->route('admin.attendances.index')
-            ->with('success', 'Attendance marked successfully.');
+            ->with('success', 'Présence marquée avec succès.');
     }
 
     public function show(Attendance $attendance)
@@ -111,6 +111,6 @@ class AttendanceController extends Controller
         ]);
 
         return redirect()->route('admin.attendances.index')
-            ->with('success', 'Attendance updated successfully.');
+            ->with('success', 'Présence mise à jour avec succès.');
     }
 }

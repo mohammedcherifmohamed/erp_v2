@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
-@section('title', 'Weekly Schedule')
-@section('page-title', 'Weekly Schedule')
-@section('page-subtitle', 'View all schedules in a weekly calendar')
+@section('title', 'Emploi du temps hebdomadaire')
+@section('page-title', 'Emploi du temps hebdomadaire')
+@section('page-subtitle', 'Voir tous les horaires dans un calendrier hebdomadaire')
 
 @section('content')
 <div class="space-y-4">
     <div class="flex items-center justify-between">
         <div class="flex gap-2">
-            <a href="{{ route('admin.schedules.weekly', ['week' => $previousWeek]) }}" class="btn-outline">&larr; Previous</a>
-            <a href="{{ route('admin.schedules.weekly', ['week' => $nextWeek]) }}" class="btn-outline">Next &rarr;</a>
+            <a href="{{ route('admin.schedules.weekly', ['week' => $previousWeek]) }}" class="btn-outline">&larr; Précédent</a>
+            <a href="{{ route('admin.schedules.weekly', ['week' => $nextWeek]) }}" class="btn-outline">Suivant &rarr;</a>
         </div>
-        <a href="{{ route('admin.schedules.index') }}" class="btn-outline">List View</a>
+        <a href="{{ route('admin.schedules.index') }}" class="btn-outline">Vue liste</a>
     </div>
 
     <div class="grid grid-cols-7 gap-2">
@@ -37,7 +37,7 @@
                             @endif
                         </div>
                     @empty
-                        <p class="text-xs text-gray-400 text-center py-4">No classes</p>
+                        <p class="text-xs text-gray-400 text-center py-4">Aucun cours</p>
                     @endforelse
                 </div>
             </div>

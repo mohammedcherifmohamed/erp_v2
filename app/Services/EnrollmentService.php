@@ -30,17 +30,20 @@ class EnrollmentService
         });
     }
 
-    public function approve(Enrollment $enrollment): Enrollment
+    public function approve(Enrollment $enrollment, ?string $startDate = null, ?string $endDate = null): Enrollment
     {
-        return DB::transaction(function () use ($enrollment) {
+        return DB::transaction(function () use ($enrollment, $startDate, $endDate) {
             $enrollment->update([
                 'status' => 'approved',
                 'approved_by' => auth()->id(),
                 'approved_at' => now(),
+                'start_date' => $startDate ?? now()->format('Y-m-d'),
+                'end_date' => $endDate ?? now()->addYear()->format('Y-m-d'),
             ]);
 
             $enrollment->classe->increment('enrolled_count');
 
+            $enrollment->load(['classe.courses', 'course']);
             $this->invoiceService->generateForEnrollment($enrollment);
             $this->auditService->logUpdate($enrollment, ['status' => 'pending'], ['status' => 'approved']);
 

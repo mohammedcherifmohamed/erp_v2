@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Attendance')
-@section('page-title', 'Edit Attendance')
+@section('title', 'Modifier la présence')
+@section('page-title', 'Modifier la présence')
 @section('page-subtitle', $attendance->student->full_name . ' - ' . $attendance->course->name)
 
 @section('content')
@@ -14,11 +14,11 @@
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="label">Student</label>
+                        <label class="label">Étudiant</label>
                         <p class="font-medium text-gray-900">{{ $attendance->student->full_name ?? '-' }}</p>
                     </div>
                     <div>
-                        <label class="label">Course</label>
+                        <label class="label">Cours</label>
                         <p class="font-medium text-gray-900">{{ $attendance->course->name ?? '-' }}</p>
                     </div>
                     <div>
@@ -26,31 +26,31 @@
                         <p class="font-medium text-gray-900">{{ $attendance->date->format('M d, Y') }}</p>
                     </div>
                     <div>
-                        <label class="label">Marked By</label>
+                        <label class="label">Marqué par</label>
                         <p class="font-medium text-gray-900">{{ $attendance->markedBy->full_name ?? '-' }}</p>
                     </div>
                 </div>
 
                 <div>
-                    <label for="status" class="label">Status <span class="text-danger-500">*</span></label>
+                    <label for="status" class="label">Statut <span class="text-danger-500">*</span></label>
                     <select id="status" name="status" required class="input @error('status') input-error @enderror">
-                        <option value="present" {{ old('status', $attendance->status) === 'present' ? 'selected' : '' }}>Present</option>
+                        <option value="present" {{ old('status', $attendance->status) === 'present' ? 'selected' : '' }}>Présent</option>
                         <option value="absent" {{ old('status', $attendance->status) === 'absent' ? 'selected' : '' }}>Absent</option>
-                        <option value="late" {{ old('status', $attendance->status) === 'late' ? 'selected' : '' }}>Late</option>
-                        <option value="excused" {{ old('status', $attendance->status) === 'excused' ? 'selected' : '' }}>Excused</option>
+                        <option value="late" {{ old('status', $attendance->status) === 'late' ? 'selected' : '' }}>En retard</option>
+                        <option value="excused" {{ old('status', $attendance->status) === 'excused' ? 'selected' : '' }}>Excusé</option>
                     </select>
                     @error('status') <p class="text-sm text-danger-600 mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label for="notes" class="label">Notes</label>
-                    <textarea id="notes" name="notes" rows="3" class="input @error('notes') input-error @enderror" placeholder="Optional notes...">{{ old('notes', $attendance->notes) }}</textarea>
+                    <textarea id="notes" name="notes" rows="3" class="input @error('notes') input-error @enderror" placeholder="Notes optionnelles...">{{ old('notes', $attendance->notes) }}</textarea>
                     @error('notes') <p class="text-sm text-danger-600 mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="flex items-center justify-end gap-3">
-                    <a href="{{ route('admin.attendances.index') }}" class="btn-outline">Cancel</a>
-                    <button type="submit" class="btn-primary">Update Attendance</button>
+                    <a href="{{ route('admin.attendances.index') }}" class="btn-outline">Annuler</a>
+                    <button type="submit" class="btn-primary">Mettre à jour la présence</button>
                 </div>
             </form>
         </div>

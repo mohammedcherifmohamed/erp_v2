@@ -43,7 +43,7 @@ class LevelController extends Controller
         $this->auditService->logCreate($level, $level->toArray());
 
         return redirect()->route('admin.levels.index')
-            ->with('success', 'Level created successfully.');
+            ->with('success', 'Niveau créé avec succès.');
     }
 
     public function show(Level $level)
@@ -64,19 +64,19 @@ class LevelController extends Controller
         $this->auditService->logUpdate($level, $old, $level->toArray());
 
         return redirect()->route('admin.levels.index')
-            ->with('success', 'Level updated successfully.');
+            ->with('success', 'Niveau mis à jour avec succès.');
     }
 
     public function destroy(Level $level)
     {
         if ($level->grades()->exists()) {
-            return back()->with('error', 'Cannot delete level with existing grades.');
+            return back()->with('error', 'Impossible de supprimer le niveau avec des classes existantes.');
         }
 
         $this->auditService->logDelete($level, $level->toArray());
         $level->delete();
 
         return redirect()->route('admin.levels.index')
-            ->with('success', 'Level deleted successfully.');
+            ->with('success', 'Niveau supprimé avec succès.');
     }
 }

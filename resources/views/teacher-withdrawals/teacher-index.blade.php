@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'My Withdrawals')
-@section('page-title', 'Withdrawals')
-@section('page-subtitle', 'Manage your withdrawal requests')
+@section('title', 'Mes retraits')
+@section('page-title', 'Retraits')
+@section('page-subtitle', 'Gérer vos demandes de retrait')
 
 @section('content')
 <div class="space-y-6">
@@ -10,47 +10,47 @@
         <div class="card">
             <div class="card-body text-center">
                 <p class="text-3xl font-bold text-primary-600">{{ number_format($walletBalance ?? 0, 2) }}</p>
-                <p class="text-sm text-gray-500 mt-1">Wallet Balance</p>
+                <p class="text-sm text-gray-500 mt-1">Solde du portefeuille</p>
             </div>
         </div>
         <div class="card">
             <div class="card-body text-center">
                 <p class="text-3xl font-bold text-success-600">{{ number_format($totalApproved ?? 0, 2) }}</p>
-                <p class="text-sm text-gray-500 mt-1">Total Withdrawn</p>
+                <p class="text-sm text-gray-500 mt-1">Total retiré</p>
             </div>
         </div>
         <div class="card">
             <div class="card-body text-center">
                 <p class="text-3xl font-bold text-warning-600">{{ $pendingCount ?? 0 }}</p>
-                <p class="text-sm text-gray-500 mt-1">Pending Requests</p>
+                <p class="text-sm text-gray-500 mt-1">Demandes en attente</p>
             </div>
         </div>
     </div>
 
     <div class="card">
         <div class="card-header">
-            <h3 class="font-semibold text-gray-900">Request Withdrawal</h3>
+            <h3 class="font-semibold text-gray-900">Demander un retrait</h3>
         </div>
         <div class="card-body">
             <form method="POST" action="{{ route('teacher.withdrawals.store') }}" class="flex gap-4 items-end">
                 @csrf
                 <div class="flex-1">
-                    <label for="amount" class="label">Amount <span class="text-danger-500">*</span></label>
+                    <label for="amount" class="label">Montant <span class="text-danger-500">*</span></label>
                     <input id="amount" type="number" step="0.01" name="amount" required class="input @error('amount') input-error @enderror" max="{{ $walletBalance ?? 0 }}" placeholder="0.00">
                     @error('amount') <p class="text-sm text-danger-600 mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div class="flex-1">
-                    <label for="method" class="label">Method <span class="text-danger-500">*</span></label>
+                    <label for="method" class="label">Méthode <span class="text-danger-500">*</span></label>
                     <select id="method" name="method" required class="input @error('method') input-error @enderror">
-                        <option value="">Select Method</option>
-                        <option value="bank_transfer">Bank Transfer</option>
-                        <option value="cash">Cash</option>
-                        <option value="cheque">Cheque</option>
-                        <option value="mobile_wallet">Mobile Wallet</option>
+                        <option value="">Sélectionner la méthode</option>
+                        <option value="bank_transfer">Virement bancaire</option>
+                        <option value="cash">Espèces</option>
+                        <option value="cheque">Chèque</option>
+                        <option value="mobile_wallet">Portefeuille mobile</option>
                     </select>
                     @error('method') <p class="text-sm text-danger-600 mt-1">{{ $message }}</p> @enderror
                 </div>
-                <button type="submit" class="btn-primary">Request</button>
+                <button type="submit" class="btn-primary">Demander</button>
             </form>
         </div>
     </div>

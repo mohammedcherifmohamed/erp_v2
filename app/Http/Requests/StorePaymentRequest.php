@@ -14,7 +14,6 @@ class StorePaymentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'invoice_id' => ['required', 'exists:invoices,id'],
             'amount' => ['required', 'numeric', 'min:0.01'],
             'payment_method' => ['nullable', 'string', 'max:100'],
             'notes' => ['nullable', 'string', 'max:500'],

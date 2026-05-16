@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Quiz')
-@section('page-title', 'Edit Quiz')
+@section('title', 'Modifier le quiz')
+@section('page-title', 'Modifier le quiz')
 @section('page-subtitle', $quiz->title)
 
 @push('styles')
@@ -18,14 +18,14 @@
                 @csrf @method('PUT')
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label for="title" class="label">Title <span class="text-danger-500">*</span></label>
+                        <label for="title" class="label">Titre <span class="text-danger-500">*</span></label>
                         <input id="title" type="text" name="title" value="{{ old('title', $quiz->title) }}" required class="input @error('title') input-error @enderror">
                         @error('title') <p class="text-sm text-danger-600 mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
-                        <label for="course_id" class="label">Course <span class="text-danger-500">*</span></label>
+                        <label for="course_id" class="label">Cours <span class="text-danger-500">*</span></label>
                         <select id="course_id" name="course_id" required class="input @error('course_id') input-error @enderror">
-                            <option value="">Select Course</option>
+                            <option value="">Sélectionner un cours</option>
                             @foreach($courses as $course)
                                 <option value="{{ $course->id }}" {{ old('course_id', $quiz->course_id) == $course->id ? 'selected' : '' }}>{{ $course->name }} - {{ $course->class->name ?? '' }}</option>
                             @endforeach
@@ -39,25 +39,25 @@
                 </div>
                 <div class="grid grid-cols-3 gap-4">
                     <div>
-                        <label for="passing_points" class="label">Passing Points</label>
+                        <label for="passing_points" class="label">Points de réussite</label>
                         <input id="passing_points" type="number" name="passing_points" value="{{ old('passing_points', $quiz->passing_points) }}" class="input" min="0">
                     </div>
                     <div>
-                        <label for="time_limit" class="label">Time Limit (minutes)</label>
+                        <label for="time_limit" class="label">Limite de temps (minutes)</label>
                         <input id="time_limit" type="number" name="time_limit" value="{{ old('time_limit', $quiz->time_limit) }}" class="input" min="0">
                     </div>
                     <div>
-                        <label for="total_points" class="label">Total Points</label>
+                        <label for="total_points" class="label">Points totaux</label>
                         <input id="total_points" type="number" name="total_points" value="{{ old('total_points', $quiz->total_points) }}" class="input" readonly>
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label for="available_from" class="label">Available From</label>
+                        <label for="available_from" class="label">Disponible du</label>
                         <input id="available_from" type="datetime-local" name="available_from" value="{{ old('available_from', $quiz->available_from ? $quiz->available_from->format('Y-m-d\TH:i') : '') }}" class="input">
                     </div>
                     <div>
-                        <label for="available_until" class="label">Available Until</label>
+                        <label for="available_until" class="label">Disponible jusqu'au</label>
                         <input id="available_until" type="datetime-local" name="available_until" value="{{ old('available_until', $quiz->available_until ? $quiz->available_until->format('Y-m-d\TH:i') : '') }}" class="input">
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                 <div>
                     <div class="flex items-center justify-between mb-3">
                         <p class="font-medium text-gray-900">Questions</p>
-                        <button type="button" onclick="addQuestion()" class="btn-sm btn-secondary">+ Add Question</button>
+                        <button type="button" onclick="addQuestion()" class="btn-sm btn-secondary">+ Ajouter une question</button>
                     </div>
                     <div id="questions-container">
                         @if(old('questions'))
@@ -82,16 +82,16 @@
                 </div>
 
                 <div>
-                    <label for="is_published" class="label">Status</label>
+                    <label for="is_published" class="label">Statut</label>
                     <select id="is_published" name="is_published" class="input">
-                        <option value="1" {{ old('is_published', $quiz->is_published) ? 'selected' : '' }}>Published</option>
-                        <option value="0" {{ old('is_published', $quiz->is_published) ? '' : 'selected' }}>Draft</option>
+                        <option value="1" {{ old('is_published', $quiz->is_published) ? 'selected' : '' }}>Publié</option>
+                        <option value="0" {{ old('is_published', $quiz->is_published) ? '' : 'selected' }}>Brouillon</option>
                     </select>
                 </div>
 
                 <div class="flex items-center justify-end gap-3">
-                    <a href="{{ route('teacher.quizzes.index') }}" class="btn-outline">Cancel</a>
-                    <button type="submit" class="btn-primary">Update Quiz</button>
+                    <a href="{{ route('teacher.quizzes.index') }}" class="btn-outline">Annuler</a>
+                    <button type="submit" class="btn-primary">Mettre à jour le quiz</button>
                 </div>
             </form>
         </div>

@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Teacher Dashboard')
-@section('page-title', 'Teacher Dashboard')
-@section('page-subtitle', 'Manage your courses and classes')
+@section('title', 'Tableau de bord Enseignant')
+@section('page-title', 'Tableau de bord Enseignant')
+@section('page-subtitle', 'Gérez vos cours et vos classes')
 
 @section('content')
 <div class="space-y-6">
@@ -10,7 +10,7 @@
         <div class="stat-card">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="stat-label">My Courses</p>
+                    <p class="stat-label">Mes Cours</p>
                     <p class="stat-value text-primary-600">{{ $stats['total_courses'] }}</p>
                 </div>
                 <div class="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
@@ -21,7 +21,7 @@
         <div class="stat-card">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="stat-label">Schedules</p>
+                    <p class="stat-label">Emplois du temps</p>
                     <p class="stat-value text-success-600">{{ $stats['total_schedules'] }}</p>
                 </div>
                 <div class="w-12 h-12 bg-success-100 rounded-xl flex items-center justify-center">
@@ -32,7 +32,7 @@
         <div class="stat-card">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="stat-label">Quizzes</p>
+                    <p class="stat-label">Quiz</p>
                     <p class="stat-value text-warning-600">{{ $stats['total_quizzes'] }}</p>
                 </div>
                 <div class="w-12 h-12 bg-warning-100 rounded-xl flex items-center justify-center">
@@ -43,7 +43,7 @@
         <div class="stat-card">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="stat-label">Wallet Balance</p>
+                    <p class="stat-label">Solde du portefeuille</p>
                     <p class="stat-value text-success-600">{{ number_format($stats['wallet_balance'], 2) }} MAD</p>
                 </div>
                 <div class="w-12 h-12 bg-success-100 rounded-xl flex items-center justify-center">
@@ -56,7 +56,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="card">
             <div class="card-header">
-                <h3 class="font-semibold text-gray-900">Today's Schedule</h3>
+                <h3 class="font-semibold text-gray-900">Emploi du temps d'aujourd'hui</h3>
             </div>
             <div class="card-body p-0">
                 <div class="divide-y divide-gray-100">
@@ -64,14 +64,14 @@
                         <div class="p-4 flex items-center justify-between hover:bg-gray-50">
                             <div>
                                 <p class="font-medium text-gray-900">{{ $schedule->course->name }}</p>
-                                <p class="text-sm text-gray-500">{{ $schedule->classe->name }} &middot; {{ $schedule->classroom ?? 'No room' }}</p>
+                                <p class="text-sm text-gray-500">{{ $schedule->classe->name }} &middot; {{ $schedule->classroom ?? 'Aucune salle' }}</p>
                             </div>
                             <div class="text-right">
                                 <p class="text-sm font-medium text-gray-900">{{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($schedule->end_time)->format('H:i') }}</p>
                             </div>
                         </div>
                     @empty
-                        <div class="p-8 text-center text-gray-500">No classes scheduled for today</div>
+                        <div class="p-8 text-center text-gray-500">Aucun cours prévu pour aujourd'hui</div>
                     @endforelse
                 </div>
             </div>
@@ -79,7 +79,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="font-semibold text-gray-900">My Courses</h3>
+                <h3 class="font-semibold text-gray-900">Mes Cours</h3>
             </div>
             <div class="card-body p-0">
                 <div class="divide-y divide-gray-100">
@@ -91,13 +91,13 @@
                                     <p class="text-sm text-gray-500">{{ $course->classe?->grade?->level?->name ?? '' }} > {{ $course->classe?->name ?? '' }}</p>
                                 </div>
                                 <div class="flex gap-2">
-                                    <a href="{{ route('teacher.attendances.mark', $course) }}" class="btn-sm btn-outline">Attendance</a>
+                                    <a href="{{ route('teacher.attendances.mark', $course) }}" class="btn-sm btn-outline">Présences</a>
                                     <a href="{{ route('teacher.quizzes.create', ['course_id' => $course->id]) }}" class="btn-sm btn-primary">Quiz</a>
                                 </div>
                             </div>
                         </div>
                     @empty
-                        <div class="p-8 text-center text-gray-500">No courses assigned yet</div>
+                        <div class="p-8 text-center text-gray-500">Aucun cours attribué pour le moment</div>
                     @endforelse
                 </div>
             </div>

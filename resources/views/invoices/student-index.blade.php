@@ -1,20 +1,20 @@
 @extends('layouts.app')
 
-@section('title', 'My Invoices')
-@section('page-title', 'My Invoices')
-@section('page-subtitle', 'View your invoices')
+@section('title', 'Mes factures')
+@section('page-title', 'Mes factures')
+@section('page-subtitle', 'Consulter vos factures')
 
 @section('content')
 <div class="card">
     <div class="card-header">
         <form method="GET" class="flex items-center gap-2">
             <select name="status" class="input w-36">
-                <option value="">All Status</option>
-                <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Pending</option>
-                <option value="paid" {{ request('status') === 'paid' ? 'selected' : '' }}>Paid</option>
-                <option value="overdue" {{ request('status') === 'overdue' ? 'selected' : '' }}>Overdue</option>
+                <option value="">Tous les statuts</option>
+                <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>En attente</option>
+                <option value="paid" {{ request('status') === 'paid' ? 'selected' : '' }}>Payé</option>
+                <option value="overdue" {{ request('status') === 'overdue' ? 'selected' : '' }}>En retard</option>
             </select>
-            <button type="submit" class="btn-secondary">Filter</button>
+            <button type="submit" class="btn-secondary">Filtrer</button>
         </form>
     </div>
     <div class="card-body p-0">
@@ -22,13 +22,13 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Invoice #</th>
-                        <th>Class</th>
+                        <th>N° Facture</th>
+                        <th>Section</th>
                         <th>Total</th>
-                        <th>Paid</th>
-                        <th>Remaining</th>
-                        <th>Status</th>
-                        <th>Due Date</th>
+                        <th>Payé</th>
+                        <th>Reste</th>
+                        <th>Statut</th>
+                        <th>Date d'échéance</th>
                         <th class="text-right">Actions</th>
                     </tr>
                 </thead>
@@ -47,12 +47,12 @@
                             </td>
                             <td>{{ $invoice->due_date->format('M d, Y') }}</td>
                             <td class="text-right">
-                                <a href="{{ route('student.invoices.show', $invoice) }}" class="btn-sm btn-outline">View</a>
+                                <a href="{{ route('student.invoices.show', $invoice) }}" class="btn-sm btn-outline">Voir</a>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center text-gray-500 py-8">No invoices found</td>
+                            <td colspan="8" class="text-center text-gray-500 py-8">Aucune facture trouvée</td>
                         </tr>
                     @endforelse
                 </tbody>

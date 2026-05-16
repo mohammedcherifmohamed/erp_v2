@@ -9,10 +9,13 @@ class Enrollment extends Model
     protected $fillable = [
         'student_id',
         'class_id',
+        'course_id',
         'status',
         'rejection_reason',
         'approved_by',
         'approved_at',
+        'start_date',
+        'end_date',
         'expires_at',
     ];
 
@@ -20,6 +23,8 @@ class Enrollment extends Model
     {
         return [
             'approved_at' => 'datetime',
+            'start_date' => 'date:Y-m-d',
+            'end_date' => 'date:Y-m-d',
             'expires_at' => 'datetime',
         ];
     }
@@ -32,6 +37,11 @@ class Enrollment extends Model
     public function classe()
     {
         return $this->belongsTo(Classe::class, 'class_id');
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
     }
 
     public function approver()

@@ -1,26 +1,26 @@
 @extends('layouts.app')
 
-@section('title', 'Attendance History - ' . $course->name)
-@section('page-title', 'Attendance History')
+@section('title', 'Historique des présences - ' . $course->name)
+@section('page-title', 'Historique des présences')
 @section('page-subtitle', $course->name . ' (' . ($course->classe?->name ?? '') . ')')
 
 @section('content')
 <div class="card">
     <div class="card-header flex items-center justify-between">
         <form method="GET" class="flex items-center gap-2">
-            <input type="date" name="from" value="{{ request('from') }}" class="input w-40" placeholder="From">
-            <input type="date" name="to" value="{{ request('to') }}" class="input w-40" placeholder="To">
+            <input type="date" name="from" value="{{ request('from') }}" class="input w-40" placeholder="Du">
+            <input type="date" name="to" value="{{ request('to') }}" class="input w-40" placeholder="Au">
             <select name="status" class="input w-36">
-                <option value="">All Status</option>
-                <option value="present" {{ request('status') === 'present' ? 'selected' : '' }}>Present</option>
+                <option value="">Tous les statuts</option>
+                <option value="present" {{ request('status') === 'present' ? 'selected' : '' }}>Présent</option>
                 <option value="absent" {{ request('status') === 'absent' ? 'selected' : '' }}>Absent</option>
-                <option value="late" {{ request('status') === 'late' ? 'selected' : '' }}>Late</option>
-                <option value="excused" {{ request('status') === 'excused' ? 'selected' : '' }}>Excused</option>
+                <option value="late" {{ request('status') === 'late' ? 'selected' : '' }}>En retard</option>
+                <option value="excused" {{ request('status') === 'excused' ? 'selected' : '' }}>Excusé</option>
             </select>
-            <button type="submit" class="btn-secondary">Filter</button>
-            <a href="{{ route('admin.attendances.index') }}" class="btn-outline">Reset</a>
+            <button type="submit" class="btn-secondary">Filtrer</button>
+            <a href="{{ route('admin.attendances.index') }}" class="btn-outline">Réinitialiser</a>
         </form>
-        <a href="{{ route('admin.attendances.create') }}" class="btn-primary">Mark Attendance</a>
+        <a href="{{ route('admin.attendances.create') }}" class="btn-primary">Marquer les présences</a>
     </div>
     <div class="card-body p-0">
         <div class="table-container">
@@ -28,10 +28,10 @@
                 <thead>
                     <tr>
                         <th>Date</th>
-                        <th>Student</th>
-                        <th>Status</th>
+                        <th>Étudiant</th>
+                        <th>Statut</th>
                         <th>Notes</th>
-                        <th>Marked By</th>
+                        <th>Marqué par</th>
                         <th class="text-right">Actions</th>
                     </tr>
                 </thead>
@@ -49,14 +49,14 @@
                             <td>{{ $attendance->markedBy->full_name ?? '-' }}</td>
                             <td class="text-right">
                                 <div class="flex items-center justify-end gap-2">
-                                    <a href="{{ route('admin.attendances.show', $attendance) }}" class="btn-sm btn-outline">View</a>
-                                    <a href="{{ route('admin.attendances.edit', $attendance) }}" class="btn-sm btn-secondary">Edit</a>
+                                    <a href="{{ route('admin.attendances.show', $attendance) }}" class="btn-sm btn-outline">Voir</a>
+                                    <a href="{{ route('admin.attendances.edit', $attendance) }}" class="btn-sm btn-secondary">Modifier</a>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center text-gray-500 py-8">No attendance records found</td>
+                            <td colspan="6" class="text-center text-gray-500 py-8">Aucun enregistrement de présence trouvé</td>
                         </tr>
                     @endforelse
                 </tbody>

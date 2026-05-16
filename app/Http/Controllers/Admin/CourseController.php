@@ -46,7 +46,7 @@ class CourseController extends Controller
         $this->auditService->logCreate($course, $course->toArray());
 
         return redirect()->route('admin.courses.index')
-            ->with('success', 'Course created successfully.');
+            ->with('success', 'Cours créé avec succès.');
     }
 
     public function show(Course $course)
@@ -69,7 +69,7 @@ class CourseController extends Controller
         $this->auditService->logUpdate($course, $old, $course->toArray());
 
         return redirect()->route('admin.courses.index')
-            ->with('success', 'Course updated successfully.');
+            ->with('success', 'Cours mis à jour avec succès.');
     }
 
     public function destroy(Course $course)
@@ -78,6 +78,6 @@ class CourseController extends Controller
         $course->delete();
 
         return redirect()->route('admin.courses.index')
-            ->with('success', 'Course deleted successfully.');
+            ->with('success', 'Cours supprimé avec succès.');
     }
 }

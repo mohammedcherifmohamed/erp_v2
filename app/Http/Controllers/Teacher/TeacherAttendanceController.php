@@ -65,7 +65,7 @@ class TeacherAttendanceController extends Controller
         }
 
         return redirect()->route('teacher.attendances.index')
-            ->with('success', 'Attendance marked successfully.');
+            ->with('success', 'Présence marquée avec succès.');
     }
 
     public function history(Course $course)

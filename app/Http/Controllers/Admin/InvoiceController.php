@@ -66,7 +66,7 @@ class InvoiceController extends Controller
         ]);
 
         return redirect()->route('admin.invoices.show', $invoice)
-            ->with('success', 'Invoice created successfully.');
+            ->with('success', 'Facture créée avec succès.');
     }
 
     public function recordPayment(Invoice $invoice, StorePaymentRequest $request)
@@ -79,7 +79,7 @@ class InvoiceController extends Controller
         );
 
         return redirect()->route('admin.invoices.show', $invoice)
-            ->with('success', 'Payment recorded successfully.');
+            ->with('success', 'Paiement enregistré avec succès.');
     }
 
     public function overdue()
@@ -104,6 +104,6 @@ class InvoiceController extends Controller
     {
         $invoice->delete();
         return redirect()->route('admin.invoices.index')
-            ->with('success', 'Invoice deleted.');
+            ->with('success', 'Facture supprimée.');
     }
 }

@@ -31,19 +31,19 @@ class TeacherWithdrawalController extends Controller
     public function approve(TeacherWithdrawal $teacherWithdrawal)
     {
         $this->paymentService->approveWithdrawal($teacherWithdrawal);
-        return back()->with('success', 'Withdrawal approved.');
+        return back()->with('success', 'Retrait approuvé.');
     }
 
     public function complete(TeacherWithdrawal $teacherWithdrawal)
     {
         $this->paymentService->completeWithdrawal($teacherWithdrawal);
-        return back()->with('success', 'Withdrawal marked as completed.');
+        return back()->with('success', 'Retrait marqué comme terminé.');
     }
 
     public function reject(TeacherWithdrawal $teacherWithdrawal, Request $request)
     {
         $data = $request->validate(['reason' => ['required', 'string', 'max:500']]);
         $this->paymentService->rejectWithdrawal($teacherWithdrawal, $data['reason']);
-        return back()->with('success', 'Withdrawal rejected.');
+        return back()->with('success', 'Retrait rejeté.');
     }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Level')
-@section('page-title', 'Edit Level')
+@section('title', 'Modifier le niveau')
+@section('page-title', 'Modifier le niveau')
 @section('page-subtitle', $level->name)
 
 @section('content')
@@ -11,12 +11,12 @@
             <form method="POST" action="{{ route('admin.levels.update', $level) }}" class="space-y-6">
                 @csrf @method('PUT')
                 <div>
-                    <label for="name" class="label">Name <span class="text-danger-500">*</span></label>
+                    <label for="name" class="label">Nom <span class="text-danger-500">*</span></label>
                     <input id="name" type="text" name="name" value="{{ old('name', $level->name) }}" required class="input @error('name') input-error @enderror">
                     @error('name') <p class="text-sm text-danger-600 mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div>
-                    <label for="name_ar" class="label">Arabic Name</label>
+                    <label for="name_ar" class="label">Nom arabe</label>
                     <input id="name_ar" type="text" name="name_ar" value="{{ old('name_ar', $level->name_ar) }}" class="input" dir="rtl">
                 </div>
                 <div>
@@ -30,20 +30,20 @@
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label for="sort_order" class="label">Sort Order</label>
+                        <label for="sort_order" class="label">Ordre</label>
                         <input id="sort_order" type="number" name="sort_order" value="{{ old('sort_order', $level->sort_order) }}" class="input w-32" min="0">
                     </div>
                     <div>
-                        <label for="is_active" class="label">Status</label>
+                        <label for="is_active" class="label">Statut</label>
                         <select id="is_active" name="is_active" class="input">
-                            <option value="1" {{ old('is_active', $level->is_active) ? 'selected' : '' }}>Active</option>
-                            <option value="0" {{ old('is_active', $level->is_active) ? '' : 'selected' }}>Inactive</option>
+                            <option value="1" {{ old('is_active', $level->is_active) ? 'selected' : '' }}>Actif</option>
+                            <option value="0" {{ old('is_active', $level->is_active) ? '' : 'selected' }}>Inactif</option>
                         </select>
                     </div>
                 </div>
                 <div class="flex items-center justify-end gap-3">
-                    <a href="{{ route('admin.levels.index') }}" class="btn-outline">Cancel</a>
-                    <button type="submit" class="btn-primary">Update Level</button>
+                    <a href="{{ route('admin.levels.index') }}" class="btn-outline">Annuler</a>
+                    <button type="submit" class="btn-primary">Mettre à jour le niveau</button>
                 </div>
             </form>
         </div>

@@ -46,7 +46,7 @@ class TeacherWithdrawalController extends Controller
             );
 
             return redirect()->route('teacher.withdrawals.index')
-                ->with('success', 'Withdrawal request submitted successfully.');
+                ->with('success', 'Demande de retrait soumise avec succès.');
         } catch (\RuntimeException $e) {
             return back()->with('error', $e->getMessage());
         }
