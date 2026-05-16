@@ -24,8 +24,9 @@
                     <td>{{ $teacher->courses_count }}</td>
                     <td>{{ number_format($teacher->wallet_balance ?? 0, 2) }}</td>
                     <td>
-                        <span class="badge-{{ $teacher->is_active ? 'success' : 'danger' }}">
-                            {{ $teacher->is_active ? 'Actif' : 'Inactif' }}
+                        @php $status = $teacher->teacherProfile->status ?? 'approved'; @endphp
+                        <span class="badge-{{ $status === 'approved' ? 'success' : ($status === 'pending' ? 'warning' : 'danger') }}">
+                            {{ $status === 'approved' ? 'Approuvé' : ($status === 'pending' ? 'En attente' : 'Refusé') }}
                         </span>
                     </td>
                     <td class="text-right">

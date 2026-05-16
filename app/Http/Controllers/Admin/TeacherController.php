@@ -18,7 +18,9 @@ class TeacherController extends Controller
     {
         $query = request('query');
         $teachers = User::byRole('teacher')
+            ->whereHas('teacherProfile', fn($q) => $q->approved())
             ->with('teacherProfile')
+            ->withCount('coursesTeaching')
             ->when($query, fn($q) => $q->where(function($sq) use ($query) {
                 $sq->where('first_name', 'like', "%{$query}%")
                   ->orWhere('last_name', 'like', "%{$query}%")
@@ -126,16 +128,64 @@ class TeacherController extends Controller
             'specialization' => ['nullable', 'string', 'max:255'],
             'bio' => ['nullable', 'string', 'max:2000'],
             'is_active' => ['sometimes', 'boolean'],
+            'password' => ['nullable', 'string', 'min:8'],
         ]);
 
-        $teacher->update($data);
+        $userFields = ['first_name', 'last_name', 'email', 'phone'];
+
+        if ($data['password'] ?? false) {
+            $teacher->update(['password' => Hash::make($data['password'])]);
+        }
+        $profileFields = ['arabic_name', 'gender', 'date_of_birth', 'nationality', 'id_card_number', 'hire_date', 'hourly_rate', 'specialization', 'bio', 'is_active'];
+
+        $teacher->update(collect($data)->only($userFields)->toArray());
 
         if ($teacher->teacherProfile) {
-            $teacher->teacherProfile()->update($data);
+            $teacher->teacherProfile()->update(collect($data)->only($profileFields)->toArray());
         }
 
         return redirect()->route('admin.teachers.index')
             ->with('success', 'Enseignant mis à jour avec succès.');
+    }
+
+    public function pending()
+    {
+        $teachers = User::byRole('teacher')
+            ->whereHas('teacherProfile', fn($q) => $q->pending())
+            ->with('teacherProfile')
+            ->latest()
+            ->paginate(15);
+
+        return view('teachers.pending', compact('teachers'));
+    }
+
+    public function approve(User $teacher)
+    {
+        if (!$teacher->isTeacher()) abort(404);
+
+        $teacher->teacherProfile->update(['status' => 'approved']);
+
+        return redirect()->route('admin.teachers.pending')
+            ->with('success', 'Enseignant approuvé avec succès. Définissez son mot de passe depuis la page de modification.');
+    }
+
+    public function reject(Request $request, User $teacher)
+    {
+        if (!$teacher->isTeacher()) abort(404);
+
+        $data = $request->validate([
+            'rejection_reason' => ['nullable', 'string', 'max:1000'],
+        ]);
+
+        $teacher->teacherProfile->update([
+            'status' => 'rejected',
+            'bio' => $data['rejection_reason']
+                ? ($teacher->teacherProfile->bio ? $teacher->teacherProfile->bio . "\n\nMotif de refus: " . $data['rejection_reason'] : 'Motif de refus: ' . $data['rejection_reason'])
+                : $teacher->teacherProfile->bio,
+        ]);
+
+        return redirect()->route('admin.teachers.pending')
+            ->with('success', 'Candidature refusée.');
     }
 
     public function destroy(User $teacher)

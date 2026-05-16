@@ -42,6 +42,13 @@
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
         Enseignants
     </a>
+    @php $pendingCount = \App\Models\User::byRole('teacher')->whereHas('teacherProfile', fn($q) => $q->pending())->count(); @endphp
+    <a href="{{ route('admin.teachers.pending') }}" class="sidebar-link pl-10 {{ request()->routeIs('admin.teachers.pending') ? 'sidebar-link-active' : '' }}">
+        <span class="text-sm">Candidatures en attente</span>
+        @if($pendingCount > 0)
+            <span class="ml-auto bg-warning-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">{{ $pendingCount }}</span>
+        @endif
+    </a>
     <a href="{{ route('admin.parents.index') }}" class="sidebar-link {{ $isActive('admin.parents') ? 'sidebar-link-active' : '' }}">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
         Parents

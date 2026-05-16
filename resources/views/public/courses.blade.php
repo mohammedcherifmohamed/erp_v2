@@ -23,9 +23,13 @@
                 <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
                     <a href="{{ url('/') }}" class="hover:text-primary-600 transition-colors">Accueil</a>
                     <a href="{{ route('courses') }}" class="text-primary-600">Cours</a>
+                    <a href="{{ route('teacher.register') }}" class="hover:text-primary-600 transition-colors">Enseigner</a>
                 </nav>
                 <div class="flex items-center gap-4">
                     @guest
+                        <div class="hidden sm:flex items-center gap-1">
+                            <a href="{{ route('teacher.login') }}" class="text-sm text-gray-500 hover:text-primary-600 transition-colors px-3 py-2">Enseignant</a>
+                        </div>
                         <a href="{{ route('login') }}" class="btn-outline">Connexion</a>
                         <a href="{{ route('register') }}" class="btn-primary">S'inscrire</a>
                     @else

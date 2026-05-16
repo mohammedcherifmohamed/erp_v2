@@ -12,6 +12,8 @@ class Invoice extends Model
         'parent_id',
         'class_id',
         'total_amount',
+        'reduction_amount',
+        'reduction_reason',
         'paid_amount',
         'remaining_amount',
         'status',
@@ -23,10 +25,16 @@ class Invoice extends Model
     {
         return [
             'total_amount' => 'decimal:2',
+            'reduction_amount' => 'decimal:2',
             'paid_amount' => 'decimal:2',
             'remaining_amount' => 'decimal:2',
             'due_date' => 'date:Y-m-d',
         ];
+    }
+
+    public function netAmount(): float
+    {
+        return $this->total_amount - $this->reduction_amount;
     }
 
     public function student()

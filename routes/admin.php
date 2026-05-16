@@ -32,7 +32,10 @@ Route::middleware(['auth', 'role:is-admin'])->prefix('admin')->name('admin.')->g
     Route::patch('/enrollments/{enrollment}/archive', [EnrollmentController::class, 'archive'])->name('enrollments.archive');
 
     Route::resource('students', StudentController::class);
+    Route::get('/teachers/pending', [TeacherController::class, 'pending'])->name('teachers.pending');
     Route::resource('teachers', TeacherController::class);
+    Route::patch('/teachers/{teacher}/approve', [TeacherController::class, 'approve'])->name('teachers.approve');
+    Route::post('/teachers/{teacher}/reject', [TeacherController::class, 'reject'])->name('teachers.reject');
     Route::resource('parents', ParentController::class);
 
     Route::resource('schedules', ScheduleController::class);
@@ -46,6 +49,7 @@ Route::middleware(['auth', 'role:is-admin'])->prefix('admin')->name('admin.')->g
 
     Route::resource('invoices', InvoiceController::class)->except(['edit', 'update']);
     Route::post('/invoices/{invoice}/payments', [InvoiceController::class, 'recordPayment'])->name('invoices.payments');
+    Route::post('/invoices/{invoice}/reduction', [InvoiceController::class, 'applyReduction'])->name('invoices.reduction');
     Route::get('/invoices/overdue', [InvoiceController::class, 'overdue'])->name('invoices.overdue');
 
     Route::resource('teacher-contracts', TeacherContractController::class);

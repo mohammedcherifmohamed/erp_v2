@@ -151,7 +151,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($teacher->walletTransactions as $txn)
+                                @forelse($teacher->walletTransactions ?? [] as $txn)
                                     <tr>
                                         <td>{{ $txn->created_at->format('M d, Y') }}</td>
                                         <td>{{ $txn->description }}</td>

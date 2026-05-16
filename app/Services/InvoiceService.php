@@ -63,7 +63,7 @@ class InvoiceService
             ]);
 
             $newPaid = $invoice->paid_amount + $amount;
-            $newRemaining = $invoice->total_amount - $newPaid;
+            $newRemaining = $invoice->netAmount() - $newPaid;
 
             $status = $newRemaining <= 0 ? 'paid' : ($newPaid > 0 ? 'partial' : 'unpaid');
 

@@ -179,6 +179,7 @@ class LandingPageController extends Controller
             'specialization' => ['required', 'string', 'max:255'],
             'experience_years' => ['required', 'integer', 'min:0', 'max:50'],
             'gender' => ['required', 'in:male,female'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
             'cv' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
             'message' => ['nullable', 'string', 'max:2000'],
         ]);
@@ -187,7 +188,7 @@ class LandingPageController extends Controller
             'first_name' => $validated['first_name'],
             'last_name' => $validated['last_name'],
             'email' => $validated['email'],
-            'password' => Hash::make(\Str::random(16)),
+            'password' => Hash::make($validated['password']),
             'phone' => $validated['phone'],
             'role' => 'teacher',
         ]);
@@ -195,7 +196,7 @@ class LandingPageController extends Controller
         $profileData = [
             'gender' => $validated['gender'],
             'specialization' => $validated['specialization'],
-            'bio' => $validated['message'] ?? null,
+            'bio' => ($validated['experience_years'] ?? 0) . " ans d'expérience\n\n" . ($validated['message'] ?? ''),
         ];
 
         $user->teacherProfile()->create($profileData);
@@ -206,7 +207,18 @@ class LandingPageController extends Controller
             ]);
         }
 
-        return redirect()->route('home')
-            ->with('success', 'Votre candidature a été envoyée avec succès. Nous vous contacterons bientôt.');
+        return redirect()->route('teacher.register.success')
+            ->with('teacher_name', $validated['first_name'] . ' ' . $validated['last_name'])
+            ->with('teacher_specialization', $validated['specialization'])
+            ->with('teacher_email', $validated['email']);
+    }
+
+    public function teacherRegisterSuccess()
+    {
+        if (!session('teacher_name')) {
+            return redirect()->route('teacher.register');
+        }
+
+        return view('public.teacher-success');
     }
 }

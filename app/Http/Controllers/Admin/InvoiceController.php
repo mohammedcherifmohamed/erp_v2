@@ -82,6 +82,27 @@ class InvoiceController extends Controller
             ->with('success', 'Paiement enregistré avec succès.');
     }
 
+    public function applyReduction(\Illuminate\Http\Request $request, Invoice $invoice)
+    {
+        $data = $request->validate([
+            'reduction_amount' => ['required', 'numeric', 'min:0', 'max:' . $invoice->total_amount],
+            'reduction_reason' => ['nullable', 'string', 'max:500'],
+        ]);
+
+        $newRemaining = ($invoice->total_amount - $data['reduction_amount']) - $invoice->paid_amount;
+        $status = $newRemaining <= 0 ? 'paid' : ($invoice->paid_amount > 0 ? 'partial' : 'unpaid');
+
+        $invoice->update([
+            'reduction_amount' => $data['reduction_amount'],
+            'reduction_reason' => $data['reduction_reason'] ?? null,
+            'remaining_amount' => max(0, $newRemaining),
+            'status' => $status,
+        ]);
+
+        return redirect()->route('admin.invoices.show', $invoice)
+            ->with('success', 'Réduction appliquée avec succès.');
+    }
+
     public function overdue()
     {
         $this->invoiceService->markOverdue();

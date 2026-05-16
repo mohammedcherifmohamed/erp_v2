@@ -1,10 +1,10 @@
 @extends('layouts.auth')
 
-@section('title', 'Connexion')
+@section('title', 'Espace Enseignant')
 
 @section('content')
 <div class="min-h-screen flex">
-    {{-- Left: Branding --}}
+    {{-- Left: Teacher branding --}}
     <div class="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-900 items-center justify-center relative overflow-hidden">
         <div class="absolute inset-0 opacity-10">
             <div class="absolute top-10 left-10 w-64 h-64 bg-white rounded-full blur-3xl"></div>
@@ -13,24 +13,16 @@
         <div class="relative max-w-lg text-center px-12">
             <div class="w-16 h-16 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <svg class="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                 </svg>
             </div>
-            <h2 class="text-4xl font-extrabold text-white mb-4">SchoolERP</h2>
-            <p class="text-lg text-primary-100 leading-relaxed mb-8">Plateforme de gestion scolaire moderne. Gérez les cours, les présences, les paiements et bien plus encore.</p>
-            <div class="grid grid-cols-3 gap-4 text-center">
-                <div class="bg-white/10 backdrop-blur rounded-xl p-4">
-                    <div class="text-2xl font-bold text-white">5k+</div>
-                    <div class="text-xs text-primary-200 mt-1">Étudiants</div>
-                </div>
-                <div class="bg-white/10 backdrop-blur rounded-xl p-4">
-                    <div class="text-2xl font-bold text-white">500+</div>
-                    <div class="text-xs text-primary-200 mt-1">Enseignants</div>
-                </div>
-                <div class="bg-white/10 backdrop-blur rounded-xl p-4">
-                    <div class="text-2xl font-bold text-white">50+</div>
-                    <div class="text-xs text-primary-200 mt-1">Établissements</div>
-                </div>
+            <h2 class="text-4xl font-extrabold text-white mb-4">Espace Enseignant</h2>
+            <p class="text-lg text-primary-100 leading-relaxed">Accédez à votre tableau de bord, gérez vos cours, suivez vos étudiants et bien plus encore.</p>
+            <div class="mt-8 flex flex-wrap justify-center gap-3">
+                <span class="bg-white/10 backdrop-blur rounded-full px-4 py-1.5 text-sm text-primary-100">Gestion des cours</span>
+                <span class="bg-white/10 backdrop-blur rounded-full px-4 py-1.5 text-sm text-primary-100">Présences</span>
+                <span class="bg-white/10 backdrop-blur rounded-full px-4 py-1.5 text-sm text-primary-100">Notes & Quiz</span>
+                <span class="bg-white/10 backdrop-blur rounded-full px-4 py-1.5 text-sm text-primary-100">Annonces</span>
             </div>
         </div>
     </div>
@@ -41,27 +33,27 @@
             <div class="text-center mb-8 lg:hidden">
                 <div class="w-12 h-12 bg-primary-600 rounded-xl flex items-center justify-center mx-auto mb-4">
                     <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                     </svg>
                 </div>
-                <h2 class="text-3xl font-bold text-gray-900">Bonjour !</h2>
-                <p class="mt-2 text-sm text-gray-500">Connectez-vous à votre compte</p>
+                <h2 class="text-3xl font-bold text-gray-900">Espace Enseignant</h2>
+                <p class="mt-2 text-sm text-gray-500">Connectez-vous à votre compte enseignant</p>
             </div>
 
             <div class="hidden lg:block text-center mb-8">
-                <h2 class="text-3xl font-bold text-gray-900">Content de vous revoir</h2>
-                <p class="mt-2 text-sm text-gray-500">Connectez-vous à votre compte SchoolERP</p>
+                <h2 class="text-3xl font-bold text-gray-900">Bonjour, enseignant !</h2>
+                <p class="mt-2 text-sm text-gray-500">Connectez-vous à votre espace pédagogique</p>
             </div>
 
             <div class="card p-8">
-                <form method="POST" action="{{ route('login') }}" class="space-y-5">
+                <form method="POST" action="{{ route('teacher.login.submit') }}" class="space-y-5">
                     @csrf
 
                     <div>
                         <label for="email" class="label">Adresse e-mail</label>
                         <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
                             class="input @error('email') input-error @enderror"
-                            placeholder="exemple@ecole.com">
+                            placeholder="votre@email.com">
                         @error('email')
                             <p class="text-sm text-danger-600 mt-1">{{ $message }}</p>
                         @enderror
@@ -92,16 +84,17 @@
 
             <div class="mt-6 space-y-3 text-center">
                 <p class="text-sm text-gray-500">
-                    Pas encore de compte ?
-                    <a href="{{ route('register') }}" class="text-primary-600 hover:text-primary-500 font-medium">Créer un compte étudiant</a>
+                    Pas encore inscrit ?
+                    <a href="{{ route('teacher.register') }}" class="text-primary-600 hover:text-primary-500 font-medium">Postuler pour enseigner</a>
                 </p>
-                <div class="border-t border-gray-200 pt-3 space-y-1">
-                    <p class="text-sm text-gray-500">Vous êtes enseignant ?</p>
-                    <div class="flex items-center justify-center gap-3 text-sm">
-                        <a href="{{ route('teacher.login') }}" class="text-primary-600 hover:text-primary-500 font-medium">Connexion enseignant</a>
-                        <span class="text-gray-300">•</span>
-                        <a href="{{ route('teacher.register') }}" class="text-primary-600 hover:text-primary-500 font-medium">Postuler</a>
-                    </div>
+                <p class="text-xs text-gray-400">
+                    Vous avez postulé mais n'avez pas reçu vos identifiants ?
+                    <a href="{{ route('teacher.register') }}" class="text-primary-600 hover:text-primary-500">Contactez l'administration</a>
+                </p>
+                <div class="border-t border-gray-200 pt-3">
+                    <a href="{{ route('login') }}" class="text-sm text-gray-500 hover:text-gray-700">
+                        Espace étudiant →
+                    </a>
                 </div>
             </div>
         </div>

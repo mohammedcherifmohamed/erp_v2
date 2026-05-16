@@ -79,7 +79,14 @@
                         <span class="text-sm text-gray-700">Actif</span>
                     </label>
                 </div>
-                <div class="flex items-center justify-end gap-3">
+                <div class="border-t pt-4">
+                    <h4 class="font-semibold text-gray-900 text-sm mb-3">Changer le mot de passe</h4>
+                    <div class="max-w-xs">
+                        <input type="text" name="password" placeholder="Nouveau mot de passe (min. 8 car.)" class="input w-full">
+                        <p class="text-xs text-gray-400 mt-1">Laissez vide pour conserver le mot de passe actuel.</p>
+                    </div>
+                </div>
+                <div class="flex items-center justify-end gap-3 pt-4">
                     <a href="{{ route('admin.teachers.index') }}" class="btn-outline">Annuler</a>
                     <button type="submit" class="btn-primary">Mettre à jour l'enseignant</button>
                 </div>

@@ -22,6 +22,7 @@ class TeacherProfile extends Model
         'cv_path',
         'specialization',
         'is_active',
+        'status',
     ];
 
     protected function casts(): array
@@ -39,6 +40,36 @@ class TeacherProfile extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function scopePending($query)
+    {
+        return $query->where('status', 'pending');
+    }
+
+    public function scopeApproved($query)
+    {
+        return $query->where('status', 'approved');
+    }
+
+    public function scopeRejected($query)
+    {
+        return $query->where('status', 'rejected');
+    }
+
+    public function isPending(): bool
+    {
+        return $this->status === 'pending';
+    }
+
+    public function isApproved(): bool
+    {
+        return $this->status === 'approved';
+    }
+
+    public function isRejected(): bool
+    {
+        return $this->status === 'rejected';
     }
 
     public function getAvatarUrlAttribute()

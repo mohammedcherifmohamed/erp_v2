@@ -82,6 +82,15 @@
             Vous avez déjà un compte ?
             <a href="{{ route('login') }}" class="text-primary-600 hover:text-primary-500 font-medium">Se connecter</a>
         </p>
+
+        <div class="mt-6 pt-6 border-t border-gray-200 text-center">
+            <p class="text-sm text-gray-500">Vous êtes enseignant ?</p>
+            <div class="flex items-center justify-center gap-3 text-sm mt-1">
+                <a href="{{ route('teacher.login') }}" class="text-primary-600 hover:text-primary-500 font-medium">Connexion enseignant</a>
+                <span class="text-gray-300">•</span>
+                <a href="{{ route('teacher.register') }}" class="text-primary-600 hover:text-primary-500 font-medium">Postuler</a>
+            </div>
+        </div>
     </div>
 </div>
 @endsection

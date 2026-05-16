@@ -38,8 +38,21 @@
                 @endif
                 <div class="border-t pt-4">
                     <div class="flex justify-between items-center">
-                        <span class="text-gray-500">Montant total</span>
+                        <span class="text-gray-500">Montant initial</span>
                         <span class="text-lg font-bold">{{ number_format($invoice->total_amount, 2) }}</span>
+                    </div>
+                    @if($invoice->reduction_amount > 0)
+                        <div class="flex justify-between items-center mt-1">
+                            <span class="text-gray-500">Réduction</span>
+                            <span class="text-lg font-bold text-danger-600">-{{ number_format($invoice->reduction_amount, 2) }}</span>
+                        </div>
+                        @if($invoice->reduction_reason)
+                            <div class="mt-1 text-xs text-gray-400">Motif : {{ $invoice->reduction_reason }}</div>
+                        @endif
+                    @endif
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-gray-500">Montant net</span>
+                        <span class="text-lg font-bold">{{ number_format($invoice->netAmount(), 2) }}</span>
                     </div>
                     <div class="flex justify-between items-center mt-1">
                         <span class="text-gray-500">Payé</span>
@@ -83,6 +96,24 @@
                     </table>
                 </div>
             </div>
+
+            @if($invoice->remaining_amount > 0)
+                <div class="card-header border-t">
+                    <h3 class="font-semibold text-gray-900">Appliquer une réduction</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ route('admin.invoices.reduction', $invoice) }}" class="grid grid-cols-3 gap-3">
+                        @csrf
+                        <div>
+                            <input type="number" step="0.01" name="reduction_amount" placeholder="Montant de la réduction" class="input" max="{{ $invoice->total_amount }}" value="{{ $invoice->reduction_amount ?? 0 }}">
+                        </div>
+                        <div>
+                            <input type="text" name="reduction_reason" placeholder="Motif (ex: réduction de fidélité)" class="input" value="{{ $invoice->reduction_reason ?? '' }}">
+                        </div>
+                        <button type="submit" class="btn-warning">{{ $invoice->reduction_amount > 0 ? 'Modifier la réduction' : 'Appliquer la réduction' }}</button>
+                    </form>
+                </div>
+            @endif
 
             @if($invoice->remaining_amount > 0)
                 <div class="card-header border-t">

@@ -96,6 +96,7 @@
                                 <tr>
                                     <th>N° Facture</th>
                                     <th>Total</th>
+                                    <th>Réduction</th>
                                     <th>Payé</th>
                                     <th>Reste</th>
                                     <th>Statut</th>
@@ -107,9 +108,16 @@
                                 @forelse($student->invoices as $invoice)
                                     <tr>
                                         <td class="font-medium">{{ $invoice->invoice_number }}</td>
-                                        <td>{{ number_format($invoice->total, 2) }}</td>
-                                        <td>{{ number_format($invoice->paid, 2) }}</td>
-                                        <td>{{ number_format($invoice->remaining, 2) }}</td>
+                                        <td>{{ number_format($invoice->total_amount, 2) }}</td>
+                                        <td>
+                                            @if($invoice->reduction_amount > 0)
+                                                <span class="text-danger-600">-{{ number_format($invoice->reduction_amount, 2) }}</span>
+                                            @else
+                                                <span class="text-gray-400">-</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ number_format($invoice->paid_amount, 2) }}</td>
+                                        <td>{{ number_format($invoice->remaining_amount, 2) }}</td>
                                         <td>
                                             <span class="badge-{{ $invoice->status === 'paid' ? 'success' : ($invoice->status === 'overdue' ? 'danger' : 'warning') }}">
                                                 {{ ucfirst($invoice->status) }}
@@ -119,7 +127,7 @@
                                         <td><a href="{{ route('admin.invoices.show', $invoice) }}" class="text-sm text-primary-600">Voir</a></td>
                                     </tr>
                                 @empty
-                                    <tr><td colspan="7" class="text-center text-gray-500 py-8">Aucune facture</td></tr>
+                                    <tr><td colspan="8" class="text-center text-gray-500 py-8">Aucune facture</td></tr>
                                 @endforelse
                             </tbody>
                         </table>

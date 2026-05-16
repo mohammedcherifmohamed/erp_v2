@@ -38,8 +38,21 @@
                 @endif
                 <div class="border-t pt-4">
                     <div class="flex justify-between items-center">
-                        <span class="text-gray-500">Montant total</span>
+                        <span class="text-gray-500">Montant initial</span>
                         <span class="text-lg font-bold">{{ number_format($invoice->total_amount, 2) }}</span>
+                    </div>
+                    @if($invoice->reduction_amount > 0)
+                        <div class="flex justify-between items-center mt-1">
+                            <span class="text-gray-500">Réduction</span>
+                            <span class="text-lg font-bold text-danger-600">-{{ number_format($invoice->reduction_amount, 2) }}</span>
+                        </div>
+                        @if($invoice->reduction_reason)
+                            <div class="mt-1 text-xs text-gray-400">Motif : {{ $invoice->reduction_reason }}</div>
+                        @endif
+                    @endif
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-gray-500">Montant net</span>
+                        <span class="text-lg font-bold">{{ number_format($invoice->netAmount(), 2) }}</span>
                     </div>
                     <div class="flex justify-between items-center mt-1">
                         <span class="text-gray-500">Payé</span>

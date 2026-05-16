@@ -26,6 +26,11 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+    public function showTeacherLogin()
+    {
+        return view('auth.teacher-login');
+    }
+
     public function login(LoginRequest $request)
     {
         $request->authenticate();

@@ -5,8 +5,9 @@
                 <th>N° Facture</th>
                 <th>Étudiant</th>
                 <th>Classe</th>
-                <th>Montant total</th>
-                <th>Reste à payer</th>
+                <th>Montant</th>
+                <th>Réduction</th>
+                <th>Reste</th>
                 <th>Date d'échéance</th>
                 <th>Retard</th>
                 <th class="text-right">Actions</th>
@@ -19,6 +20,13 @@
                     <td>{{ $invoice->student->full_name ?? '-' }}</td>
                     <td>{{ $invoice->classe->name ?? '-' }}</td>
                     <td>{{ number_format($invoice->total_amount, 2) }}</td>
+                    <td>
+                        @if($invoice->reduction_amount > 0)
+                            <span class="text-danger-600 font-medium">-{{ number_format($invoice->reduction_amount, 2) }}</span>
+                        @else
+                            <span class="text-gray-400">-</span>
+                        @endif
+                    </td>
                     <td class="text-danger-600 font-medium">{{ number_format($invoice->remaining_amount, 2) }}</td>
                     <td>{{ $invoice->due_date->format('M d, Y') }}</td>
                     <td>
@@ -32,7 +40,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="8" class="text-center text-gray-500 py-8">Aucune facture en retard</td>
+                    <td colspan="9" class="text-center text-gray-500 py-8">Aucune facture en retard</td>
                 </tr>
             @endforelse
         </tbody>

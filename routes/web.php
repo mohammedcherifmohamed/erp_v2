@@ -14,11 +14,14 @@ Route::post('/courses/{course}/enroll-course', [LandingPageController::class, 'e
 Route::get('/enrollments/{enrollment}/success', [LandingPageController::class, 'enrollmentSuccess'])->middleware('auth')->name('enrollments.success');
 Route::get('/teacher/register', [LandingPageController::class, 'teacherRegister'])->name('teacher.register');
 Route::post('/teacher/register', [LandingPageController::class, 'teacherRegisterStore'])->name('teacher.register.store');
+Route::get('/teacher/register/success', [LandingPageController::class, 'teacherRegisterSuccess'])->name('teacher.register.success');
 
 // Guest
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/teacher/login', [AuthController::class, 'showTeacherLogin'])->name('teacher.login');
+    Route::post('/teacher/login', [AuthController::class, 'login'])->name('teacher.login.submit');
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
 });
