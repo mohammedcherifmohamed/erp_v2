@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\AccountCreatedByAdmin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\AuditService;
@@ -46,7 +47,7 @@ class StudentController extends Controller
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'],
+            'password' => ['nullable', 'string', 'min:8'],
             'phone' => ['nullable', 'string', 'max:20'],
             'arabic_name' => ['nullable', 'string', 'max:255'],
             'date_of_birth' => ['nullable', 'date'],
@@ -62,7 +63,7 @@ class StudentController extends Controller
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => Hash::make($data['password'] ?? \Illuminate\Support\Str::random(16)),
             'phone' => $data['phone'] ?? null,
             'role' => 'student',
         ]);
@@ -79,6 +80,8 @@ class StudentController extends Controller
         ]);
 
         $this->auditService->logCreate($user, $user->toArray());
+
+        event(new AccountCreatedByAdmin($user));
 
         return redirect()->route('admin.students.index')
             ->with('success', 'Étudiant créé avec succès.');

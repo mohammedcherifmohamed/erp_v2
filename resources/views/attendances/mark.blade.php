@@ -12,13 +12,9 @@
                 @csrf
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label for="course_id" class="label">Cours <span class="text-danger-500">*</span></label>
-                        <select id="course_id" name="course_id" required class="input @error('course_id') input-error @enderror">
-                            <option value="">Sélectionner un cours</option>
-                            @foreach($courses as $course)
-                                <option value="{{ $course->id }}" {{ old('course_id') == $course->id ? 'selected' : '' }}>{{ $course->name }} - {{ $course->class->name ?? '' }}</option>
-                            @endforeach
-                        </select>
+                        <label class="label">Cours</label>
+                        <input type="hidden" name="course_id" value="{{ $course->id }}">
+                        <p class="input bg-gray-50 text-gray-700 cursor-not-allowed">{{ $course->name }} - {{ $course->classe->name ?? '' }}</p>
                         @error('course_id') <p class="text-sm text-danger-600 mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>

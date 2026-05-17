@@ -25,10 +25,10 @@
                     <label for="contract_type" class="label">Type de contrat <span class="text-danger-500">*</span></label>
                     <select id="contract_type" name="contract_type" required class="input @error('contract_type') input-error @enderror">
                         <option value="">Sélectionner le type</option>
-                        <option value="hourly" {{ old('contract_type', $contract->contract_type) === 'hourly' ? 'selected' : '' }}>Horaire</option>
-                        <option value="monthly" {{ old('contract_type', $contract->contract_type) === 'monthly' ? 'selected' : '' }}>Mensuel</option>
-                        <option value="per_course" {{ old('contract_type', $contract->contract_type) === 'per_course' ? 'selected' : '' }}>Par cours</option>
-                        <option value="per_student" {{ old('contract_type', $contract->contract_type) === 'per_student' ? 'selected' : '' }}>Par étudiant</option>
+                        <option value="percentage" {{ old('contract_type', $contract->contract_type) === 'percentage' ? 'selected' : '' }}>نسبه مئويه يحددها الادمن</option>
+                        <option value="per_session" {{ old('contract_type', $contract->contract_type) === 'per_session' ? 'selected' : '' }}>بالحصه</option>
+                        <option value="per_student" {{ old('contract_type', $contract->contract_type) === 'per_student' ? 'selected' : '' }}>بعدد التلاميذ</option>
+                        <option value="monthly" {{ old('contract_type', $contract->contract_type) === 'monthly' ? 'selected' : '' }}>شهريا</option>
                     </select>
                     @error('contract_type') <p class="text-sm text-danger-600 mt-1">{{ $message }}</p> @enderror
                 </div>
@@ -43,7 +43,7 @@
                         <select id="course_id" name="course_id" class="input">
                             <option value="">Sélectionner un cours (optionnel)</option>
                             @foreach($courses as $course)
-                                <option value="{{ $course->id }}" {{ old('course_id', $contract->course_id) == $course->id ? 'selected' : '' }}>{{ $course->name }} ({{ $course->class->name ?? '' }})</option>
+                                <option value="{{ $course->id }}" {{ old('course_id', $contract->course_id) == $course->id ? 'selected' : '' }}>{{ $course->name }} ({{ $course->classe->name ?? '' }} — {{ $course->classe->grade->level->name ?? '' }} {{ $course->classe->grade->name ?? '' }})</option>
                             @endforeach
                         </select>
                     </div>
@@ -52,7 +52,7 @@
                         <select id="class_id" name="class_id" class="input">
                             <option value="">Sélectionner une section (optionnel)</option>
                             @foreach($classes as $class)
-                                <option value="{{ $class->id }}" {{ old('class_id', $contract->class_id) == $class->id ? 'selected' : '' }}>{{ $class->name }} ({{ $class->grade->name ?? '' }})</option>
+                                <option value="{{ $class->id }}" {{ old('class_id', $contract->class_id) == $class->id ? 'selected' : '' }}>{{ $class->name }} ({{ $class->grade->level->name ?? '' }} — {{ $class->grade->name ?? '' }})</option>
                             @endforeach
                         </select>
                     </div>

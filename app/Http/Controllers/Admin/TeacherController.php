@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\AccountCreatedByAdmin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\AuditService;
@@ -48,7 +49,7 @@ class TeacherController extends Controller
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'],
+            'password' => ['nullable', 'string', 'min:8'],
             'phone' => ['nullable', 'string', 'max:20'],
             'arabic_name' => ['nullable', 'string', 'max:255'],
             'gender' => ['required', 'string', 'in:male,female'],
@@ -65,7 +66,7 @@ class TeacherController extends Controller
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => Hash::make($data['password'] ?? \Illuminate\Support\Str::random(16)),
             'phone' => $data['phone'] ?? null,
             'role' => 'teacher',
         ]);
@@ -83,6 +84,8 @@ class TeacherController extends Controller
         ]);
 
         $this->auditService->logCreate($user, $user->toArray());
+
+        event(new AccountCreatedByAdmin($user));
 
         return redirect()->route('admin.teachers.index')
             ->with('success', 'Enseignant créé avec succès.');

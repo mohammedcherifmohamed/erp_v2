@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Attendance;
+use App\Models\Enrollment;
+use App\Models\Invoice;
 use App\Models\TeacherContract;
 use App\Models\TeacherWithdrawal;
 use App\Models\User;
@@ -56,8 +58,10 @@ class TeacherPaymentService
         return match ($contract->contract_type) {
             'per_session' => $query->count() * $contract->rate,
             'per_student' => $course->classe->enrolled_count * $contract->rate,
-            'percentage' => ($course->classe->price ?? 0) * ($contract->rate / 100),
-            'fixed_salary' => $contract->rate,
+            'percentage' => Invoice::whereHas('student.enrollments', fn($q) => $q->where('course_id', $course->id)->approved())
+                ->whereIn('status', ['paid', 'partial'])
+                ->sum('paid_amount') * ($contract->rate / 100),
+            'monthly' => $contract->rate,
             default => 0,
         };
     }

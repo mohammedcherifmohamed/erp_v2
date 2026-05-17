@@ -25,4 +25,6 @@ Route::middleware(['auth', 'role:is-teacher'])->prefix('teacher')->name('teacher
 
     Route::get('/withdrawals', [TeacherWithdrawalController::class, 'index'])->name('withdrawals.index');
     Route::post('/withdrawals', [TeacherWithdrawalController::class, 'store'])->name('withdrawals.store');
+
+    Route::get('/schedule', [TeacherAttendanceController::class, 'schedule'])->name('schedule');
 });

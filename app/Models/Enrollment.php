@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Events\EnrollmentApproved;
+use App\Events\EnrollmentRejected;
+use App\Events\EnrollmentSubmitted;
 use Illuminate\Database\Eloquent\Model;
 
 class Enrollment extends Model
@@ -27,6 +30,25 @@ class Enrollment extends Model
             'end_date' => 'date:Y-m-d',
             'expires_at' => 'datetime',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::created(function (Enrollment $enrollment) {
+            if ($enrollment->status === 'pending') {
+                event(new EnrollmentSubmitted($enrollment));
+            }
+        });
+
+        static::updated(function (Enrollment $enrollment) {
+            if ($enrollment->wasChanged('status')) {
+                match ($enrollment->status) {
+                    'approved' => event(new EnrollmentApproved($enrollment)),
+                    'rejected' => event(new EnrollmentRejected($enrollment)),
+                    default => null,
+                };
+            }
+        });
     }
 
     public function student()

@@ -24,6 +24,12 @@ Route::middleware('guest')->group(function () {
     Route::post('/teacher/login', [AuthController::class, 'login'])->name('teacher.login.submit');
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
+
+    // Password setup
+    Route::get('/password-setup/{token}', [\App\Http\Controllers\Auth\PasswordSetupController::class, 'showSetupForm'])->name('password.setup');
+    Route::post('/password-setup/{token}', [\App\Http\Controllers\Auth\PasswordSetupController::class, 'setupPassword'])
+        ->middleware('throttle:5,30')
+        ->name('password.setup.store');
 });
 
 // Authenticated

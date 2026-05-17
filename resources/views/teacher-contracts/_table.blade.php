@@ -14,7 +14,10 @@
             @forelse($contracts as $contract)
                 <tr>
                     <td class="font-medium">{{ $contract->teacher->full_name ?? '-' }}</td>
-                    <td><span class="badge-gray">{{ ucfirst($contract->contract_type) }}</span></td>
+                    <td>
+                        @php $labels = ['percentage' => 'نسبه مئويه', 'per_session' => 'بالحصه', 'per_student' => 'بعدد التلاميذ', 'monthly' => 'شهريا']; @endphp
+                        <span class="badge-gray">{{ $labels[$contract->contract_type] ?? $contract->contract_type }}</span>
+                    </td>
                     <td>{{ number_format($contract->rate, 2) }}</td>
                     <td>{{ $contract->course->name ?? $contract->classe->name ?? '-' }}</td>
                     <td>

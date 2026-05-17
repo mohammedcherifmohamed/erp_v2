@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Teacher;
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\Course;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 
 class TeacherAttendanceController extends Controller
@@ -78,5 +79,25 @@ class TeacherAttendanceController extends Controller
             ->paginate(30);
 
         return view('attendances.history', compact('course', 'attendances'));
+    }
+
+    public function schedule()
+    {
+        $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+        $courseIds = Course::where('teacher_id', auth()->id())->pluck('id');
+
+        $schedules = Schedule::with(['course', 'teacher'])
+            ->whereIn('course_id', $courseIds)
+            ->where('is_active', true)
+            ->get()
+            ->groupBy('day_of_week');
+
+        $week = collect();
+        foreach ($days as $day) {
+            $week[$day] = $schedules->get($day, collect());
+        }
+
+        return view('schedules.student', compact('week'));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\StudentRegistered;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
@@ -83,6 +84,8 @@ class AuthController extends Controller
         Auth::login($user);
 
         $this->auditService->logAuth('register', ['user_id' => $user->id]);
+
+        event(new StudentRegistered($user));
 
         return redirect()->route('dashboard');
     }

@@ -34,8 +34,8 @@ class TeacherContractController extends Controller
     public function create()
     {
         $teachers = User::byRole('teacher')->get();
-        $courses = Course::with('classe')->active()->get();
-        $classes = Classe::active()->get();
+        $courses = Course::with('classe.grade.level')->active()->get();
+        $classes = Classe::with('grade.level')->active()->get();
         return view('teacher-contracts.create', compact('teachers', 'courses', 'classes'));
     }
 
@@ -57,9 +57,10 @@ class TeacherContractController extends Controller
     public function edit(TeacherContract $teacherContract)
     {
         $teachers = User::byRole('teacher')->get();
-        $courses = Course::active()->get();
-        $classes = Classe::active()->get();
-        return view('teacher-contracts.edit', compact('teacherContract', 'teachers', 'courses', 'classes'));
+        $courses = Course::with('classe.grade.level')->active()->get();
+        $classes = Classe::with('grade.level')->active()->get();
+        $contract = $teacherContract;
+        return view('teacher-contracts.edit', compact('contract', 'teachers', 'courses', 'classes'));
     }
 
     public function update(StoreTeacherContractRequest $request, TeacherContract $teacherContract)

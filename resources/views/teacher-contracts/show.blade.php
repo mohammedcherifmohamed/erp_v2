@@ -22,7 +22,8 @@
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Type de contrat</p>
-                    <span class="badge-gray inline-block mt-1">{{ ucfirst($contract->contract_type) }}</span>
+                    @php $labels = ['percentage' => 'نسبه مئويه', 'per_session' => 'بالحصه', 'per_student' => 'بعدد التلاميذ', 'monthly' => 'شهريا']; @endphp
+                    <span class="badge-gray inline-block mt-1">{{ $labels[$contract->contract_type] ?? $contract->contract_type }}</span>
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Taux</p>

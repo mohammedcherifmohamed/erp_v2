@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TeacherApplied;
 use App\Models\Classe;
 use App\Models\Course;
 use App\Models\Enrollment;
@@ -206,6 +207,8 @@ class LandingPageController extends Controller
                 'cv_path' => $request->file('cv')->store('teacher-cvs', 'public'),
             ]);
         }
+
+        event(new TeacherApplied($user));
 
         return redirect()->route('teacher.register.success')
             ->with('teacher_name', $validated['first_name'] . ' ' . $validated['last_name'])

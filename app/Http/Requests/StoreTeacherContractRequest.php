@@ -17,7 +17,7 @@ class StoreTeacherContractRequest extends FormRequest
             'teacher_id' => ['required', 'exists:users,id'],
             'course_id' => ['nullable', 'exists:courses,id'],
             'class_id' => ['nullable', 'exists:classes,id'],
-            'contract_type' => ['required', 'in:percentage,per_session,per_student,fixed_salary'],
+            'contract_type' => ['required', 'in:percentage,per_session,per_student,monthly'],
             'rate' => ['required', 'numeric', 'min:0'],
         ];
     }
