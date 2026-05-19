@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreLevelRequest extends FormRequest
 {
@@ -35,7 +36,7 @@ class UpdateLevelRequest extends FormRequest
         return [
             'name' => ['sometimes', 'string', 'max:255'],
             'name_ar' => ['nullable', 'string', 'max:255'],
-            'code' => ['sometimes', 'string', 'max:50', 'unique:levels,code,' . $this->route('level')],
+            'code' => ['sometimes', 'string', 'max:50', Rule::unique('levels', 'code')->ignore($this->route('level'))],
             'description' => ['nullable', 'string', 'max:1000'],
             'is_active' => ['sometimes', 'boolean'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
@@ -76,7 +77,7 @@ class UpdateGradeRequest extends FormRequest
             'level_id' => ['sometimes', 'exists:levels,id'],
             'name' => ['sometimes', 'string', 'max:255'],
             'name_ar' => ['nullable', 'string', 'max:255'],
-            'code' => ['sometimes', 'string', 'max:50', 'unique:grades,code,' . $this->route('grade')],
+            'code' => ['sometimes', 'string', 'max:50', Rule::unique('grades', 'code')->ignore($this->route('grade'))],
             'is_active' => ['sometimes', 'boolean'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
         ];
