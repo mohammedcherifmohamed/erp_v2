@@ -18,6 +18,10 @@ class Classe extends Model
         'is_public',
         'price',
         'reduction_price',
+        'bundle_price',
+        'bundle_discount_type',
+        'bundle_discount_value',
+        'show_bundle_on_landing',
         'image',
         'description',
         'homeroom_teacher_id',
@@ -32,6 +36,9 @@ class Classe extends Model
             'is_public' => 'boolean',
             'price' => 'decimal:2',
             'reduction_price' => 'decimal:2',
+            'bundle_price' => 'decimal:2',
+            'bundle_discount_value' => 'decimal:2',
+            'show_bundle_on_landing' => 'boolean',
             'is_active' => 'boolean',
         ];
     }
@@ -89,6 +96,11 @@ class Classe extends Model
             ->withTimestamps();
     }
 
+    public function sectionEnrollments()
+    {
+        return $this->hasMany(SectionEnrollment::class, 'section_id');
+    }
+
     public function getRemainingSeatsAttribute()
     {
         return $this->capacity - $this->enrolled_count;
@@ -104,6 +116,37 @@ class Classe extends Model
         return !is_null($this->reduction_price) && $this->reduction_price < $this->total_courses_price;
     }
 
+    public function hasBundleDiscountAttribute(): bool
+    {
+        return $this->bundle_discount_type !== 'none' && $this->bundle_discount_value > 0;
+    }
+
+    public function getBundleDiscountedPriceAttribute(): ?float
+    {
+        if (!$this->has_bundle_discount || !$this->bundle_price) {
+            return $this->bundle_price;
+        }
+
+        return match ($this->bundle_discount_type) {
+            'percentage' => $this->bundle_price * (1 - $this->bundle_discount_value / 100),
+            'fixed' => max(0, $this->bundle_price - $this->bundle_discount_value),
+            default => $this->bundle_price,
+        };
+    }
+
+    public function getBundleSavingsAttribute(): ?float
+    {
+        return $this->total_courses_price - ($this->bundle_discounted_price ?? $this->total_courses_price);
+    }
+
+    public function getBundleSavingsPercentAttribute(): ?int
+    {
+        if (!$this->total_courses_price || $this->total_courses_price <= 0) {
+            return 0;
+        }
+        return (int) round(($this->bundle_savings / $this->total_courses_price) * 100);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
@@ -112,5 +155,10 @@ class Classe extends Model
     public function scopePublic($query)
     {
         return $query->where('is_public', true);
+    }
+
+    public function scopeShowBundleOnLanding($query)
+    {
+        return $query->where('show_bundle_on_landing', true);
     }
 }

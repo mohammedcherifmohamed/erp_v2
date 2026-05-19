@@ -17,6 +17,11 @@ class Course extends Model
         'credits',
         'price',
         'is_active',
+        'show_on_landing',
+        'duration',
+        'max_students',
+        'thumbnail',
+        'enrolled_count',
     ];
 
     protected function casts(): array
@@ -26,10 +31,18 @@ class Course extends Model
             'credits' => 'integer',
             'price' => 'decimal:2',
             'is_active' => 'boolean',
+            'show_on_landing' => 'boolean',
+            'max_students' => 'integer',
+            'enrolled_count' => 'integer',
         ];
     }
 
     public function classe()
+    {
+        return $this->belongsTo(Classe::class, 'class_id');
+    }
+
+    public function section()
     {
         return $this->belongsTo(Classe::class, 'class_id');
     }
@@ -59,8 +72,26 @@ class Course extends Model
         return $this->hasMany(TeacherContract::class);
     }
 
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class, 'course_id');
+    }
+
+    public function getRemainingSeatsAttribute(): int
+    {
+        if (!$this->max_students) {
+            return 999;
+        }
+        return $this->max_students - $this->enrolled_count;
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
+    }
+
+    public function scopeShowOnLanding($query)
+    {
+        return $query->where('show_on_landing', true);
     }
 }

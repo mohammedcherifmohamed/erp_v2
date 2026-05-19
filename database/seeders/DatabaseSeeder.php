@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         $admin = User::create([
             'first_name' => 'Admin',
             'last_name' => 'School',
-            'email' => 'admin@school.com',
+            'email' => 'yureidevs42@gmail.com',
             'password' => Hash::make('password'),
             'role' => 'admin',
             'phone' => '+212 6 00 00 00 00',
@@ -397,7 +397,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->command->info('Database seeded successfully!');
-        $this->command->info('Admin: admin@school.com / password');
+        $this->command->info('Admin: yureidevs42@gmail.com / password');
         $this->command->info('Teacher: teacher1@school.com / password');
         $this->command->info('Student: student1@example.com / password');
         $this->command->info('Parent: parent1@example.com / password');

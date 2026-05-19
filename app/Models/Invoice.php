@@ -11,6 +11,7 @@ class Invoice extends Model
         'student_id',
         'parent_id',
         'class_id',
+        'section_enrollment_id',
         'total_amount',
         'reduction_amount',
         'reduction_reason',
@@ -50,6 +51,11 @@ class Invoice extends Model
     public function classe()
     {
         return $this->belongsTo(Classe::class, 'class_id');
+    }
+
+    public function sectionEnrollment()
+    {
+        return $this->belongsTo(SectionEnrollment::class, 'section_enrollment_id');
     }
 
     public function payments()

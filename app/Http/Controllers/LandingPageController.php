@@ -6,6 +6,7 @@ use App\Events\TeacherApplied;
 use App\Models\Classe;
 use App\Models\Course;
 use App\Models\Enrollment;
+use App\Models\SectionEnrollment;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
@@ -15,19 +16,27 @@ class LandingPageController extends Controller
 {
     public function home()
     {
-        $publicClasses = Classe::with([
+        $bundles = Classe::with([
             'grade.level',
             'homeroomTeacher.teacherProfile',
-            'courses',
-            'schedules',
+            'courses.teacher.teacherProfile',
         ])
             ->public()
             ->active()
+            ->showBundleOnLanding()
+            ->get();
+
+        $featuredCourses = Course::with([
+            'section.grade.level',
+            'teacher.teacherProfile',
+        ])
+            ->active()
+            ->showOnLanding()
             ->get();
 
         $levels = \App\Models\Level::active()->ordered()->get();
 
-        return view('welcome', compact('publicClasses', 'levels'));
+        return view('welcome', compact('bundles', 'featuredCourses', 'levels'));
     }
 
     public function courses()
@@ -75,10 +84,42 @@ class LandingPageController extends Controller
             'homeroomTeacher.teacherProfile',
             'courses.teacher.teacherProfile',
             'enrollments',
-            'schedules.course',
+            'schedules.course.teacher',
         ]);
 
-        return view('public.course-details', compact('classe'));
+        $relatedBundles = Classe::with(['grade.level', 'courses'])
+            ->public()
+            ->active()
+            ->where('grade_id', $classe->grade_id)
+            ->where('id', '!=', $classe->id)
+            ->take(3)
+            ->get();
+
+        return view('public.course-details', compact('classe', 'relatedBundles'));
+    }
+
+    public function bundleDetails(Classe $classe)
+    {
+        if (!$classe->is_public || !$classe->is_active) {
+            abort(404);
+        }
+
+        $classe->load([
+            'grade.level',
+            'homeroomTeacher.teacherProfile',
+            'courses.teacher.teacherProfile',
+            'schedules.course.teacher',
+        ]);
+
+        $relatedBundles = Classe::with(['grade.level', 'courses'])
+            ->public()
+            ->active()
+            ->where('grade_id', $classe->grade_id)
+            ->where('id', '!=', $classe->id)
+            ->take(3)
+            ->get();
+
+        return view('public.bundle-details', compact('classe', 'relatedBundles'));
     }
 
     public function enroll(Request $request, Classe $classe)
@@ -148,6 +189,37 @@ class LandingPageController extends Controller
         return redirect()->route('enrollments.success', $enrollment);
     }
 
+    public function enrollBundle(Request $request, Classe $classe)
+    {
+        if (!$classe->is_public || !$classe->is_active) {
+            return redirect()->route('courses')->with('error', 'Ce forfait n\'est pas disponible.');
+        }
+
+        $user = $request->user();
+
+        if (!$user->isStudent()) {
+            return back()->with('error', 'Seuls les étudiants peuvent s\'inscrire aux forfaits.');
+        }
+
+        $existing = SectionEnrollment::where('student_id', $user->id)
+            ->where('section_id', $classe->id)
+            ->first();
+
+        if ($existing) {
+            return back()->with('info', 'Vous êtes déjà inscrit à ce forfait ou votre demande est en attente.');
+        }
+
+        $enrollment = SectionEnrollment::create([
+            'student_id' => $user->id,
+            'section_id' => $classe->id,
+            'bundle_price_paid' => $classe->bundle_discounted_price ?? $classe->bundle_price ?? $classe->total_courses_price,
+            'status' => 'pending',
+            'expires_at' => now()->addDays(7),
+        ]);
+
+        return redirect()->route('section-enrollments.success', $enrollment);
+    }
+
     public function enrollmentSuccess(Enrollment $enrollment)
     {
         if ($enrollment->student_id !== auth()->id()) {
@@ -156,6 +228,16 @@ class LandingPageController extends Controller
 
         $enrollment->load(['classe.grade.level', 'classe.courses', 'course']);
         return view('enrollments.success', compact('enrollment'));
+    }
+
+    public function sectionEnrollmentSuccess(SectionEnrollment $sectionEnrollment)
+    {
+        if ($sectionEnrollment->student_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $sectionEnrollment->load(['section.grade.level', 'section.courses']);
+        return view('section-enrollments.success', compact('sectionEnrollment'));
     }
 
     public function teacherRegister()

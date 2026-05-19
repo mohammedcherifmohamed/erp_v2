@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\LevelController;
 use App\Http\Controllers\Admin\ParentController;
 use App\Http\Controllers\Admin\ScheduleController;
+use App\Http\Controllers\Admin\SectionEnrollmentController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherContractController;
 use App\Http\Controllers\Admin\TeacherController;
@@ -51,6 +52,12 @@ Route::middleware(['auth', 'role:is-admin'])->prefix('admin')->name('admin.')->g
     Route::post('/invoices/{invoice}/payments', [InvoiceController::class, 'recordPayment'])->name('invoices.payments');
     Route::post('/invoices/{invoice}/reduction', [InvoiceController::class, 'applyReduction'])->name('invoices.reduction');
     Route::get('/invoices/overdue', [InvoiceController::class, 'overdue'])->name('invoices.overdue');
+
+    Route::resource('section-enrollments', SectionEnrollmentController::class)->only(['index', 'show']);
+    Route::get('/section-enrollments/pending', [SectionEnrollmentController::class, 'pending'])->name('section-enrollments.pending');
+    Route::patch('/section-enrollments/{sectionEnrollment}/approve', [SectionEnrollmentController::class, 'approve'])->name('section-enrollments.approve');
+    Route::post('/section-enrollments/{sectionEnrollment}/reject', [SectionEnrollmentController::class, 'reject'])->name('section-enrollments.reject');
+    Route::patch('/section-enrollments/{sectionEnrollment}/archive', [SectionEnrollmentController::class, 'archive'])->name('section-enrollments.archive');
 
     Route::resource('teacher-contracts', TeacherContractController::class);
     Route::resource('teacher-withdrawals', TeacherWithdrawalController::class)->only(['index', 'show']);

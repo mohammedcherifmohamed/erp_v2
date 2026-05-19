@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Enrollment;
 use App\Models\Invoice;
 use App\Models\Payment;
+use App\Models\SectionEnrollment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -76,6 +77,41 @@ class InvoiceService
             $this->auditService->logCreate($payment, $payment->toArray());
 
             return $payment;
+        });
+    }
+
+    public function generateForSectionEnrollment(SectionEnrollment $enrollment): Invoice
+    {
+        $section = $enrollment->section;
+        $student = $enrollment->student;
+        $totalAmount = $enrollment->bundle_price_paid ?? $section->bundle_discounted_price ?? $section->bundle_price ?? $section->total_courses_price ?? 0;
+        $courseCount = $section->courses->count();
+        $description = "Forfait complet: {$section->name} ({$courseCount} cours)";
+
+        if ($section->has_bundle_discount) {
+            $description .= " | Économisez {$section->bundle_savings_percent}%";
+        }
+
+        $invoiceNumber = 'INV-' . date('Y') . '-' . Str::padLeft(Invoice::count() + 1, 6, '0');
+
+        return DB::transaction(function () use ($section, $student, $invoiceNumber, $enrollment, $totalAmount, $description) {
+            $invoice = Invoice::create([
+                'invoice_number' => $invoiceNumber,
+                'student_id' => $student->id,
+                'parent_id' => $student->studentProfile?->parent_id,
+                'class_id' => $section->id,
+                'section_enrollment_id' => $enrollment->id,
+                'total_amount' => $totalAmount,
+                'paid_amount' => 0,
+                'remaining_amount' => $totalAmount,
+                'status' => 'unpaid',
+                'due_date' => now()->addDays(30),
+                'description' => $description,
+            ]);
+
+            $this->auditService->logCreate($invoice, $invoice->toArray());
+
+            return $invoice;
         });
     }
 

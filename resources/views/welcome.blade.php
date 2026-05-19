@@ -12,40 +12,35 @@
     {{-- Navbar --}}
     <header class="absolute top-0 left-0 right-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+            <div class="flex items-center justify-between h-16 md:h-20">
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                         </svg>
                     </div>
-                    <span class="text-xl font-bold text-gray-900">SchoolERP</span>
+                    <span class="text-xl font-bold text-gray-900">{{ config('app.name') }}</span>
                 </div>
-                <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
-                    <a href="#features" class="hover:text-primary-600 transition-colors">Fonctionnalités</a>
+                <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
                     <a href="{{ route('courses') }}" class="hover:text-primary-600 transition-colors">Cours</a>
+                    <a href="#forfaits" class="hover:text-primary-600 transition-colors">Forfaits</a>
+                    <a href="#cours" class="hover:text-primary-600 transition-colors">Cours individuels</a>
                     <a href="{{ route('teacher.register') }}" class="hover:text-primary-600 transition-colors">Enseigner</a>
                 </nav>
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3">
                     @guest
-                        <div class="hidden sm:flex items-center gap-1">
-                            <a href="{{ route('teacher.login') }}" class="text-sm text-gray-500 hover:text-primary-600 transition-colors px-3 py-2">Enseignant</a>
-                        </div>
-                        <a href="{{ route('login') }}" class="btn-outline">Connexion</a>
-                        <a href="{{ route('register') }}" class="btn-primary">Commencer</a>
+                        <a href="{{ route('teacher.login') }}" class="hidden sm:inline-flex text-sm text-gray-500 hover:text-primary-600 transition-colors px-3 py-2">Enseignant</a>
+                        <a href="{{ route('login') }}" class="btn-outline text-sm">Connexion</a>
+                        <a href="{{ route('register') }}" class="btn-primary text-sm">S'inscrire</a>
                     @else
-                        <div class="flex items-center gap-3">
-                            <a href="{{ route('dashboard') }}" class="text-sm font-medium text-gray-700 hover:text-primary-600 transition-colors">
-                                {{ auth()->user()->full_name }}
-                            </a>
-                            <div class="w-8 h-8 bg-primary-100 text-primary-700 rounded-full flex items-center justify-center text-sm font-bold">
-                                {{ auth()->user()->initials }}
-                            </div>
-                            <form method="POST" action="{{ route('logout') }}" class="inline">
-                                @csrf
-                                <button type="submit" class="text-sm text-gray-500 hover:text-danger-600 transition-colors">Déconnexion</button>
-                            </form>
-                        </div>
+                        <a href="{{ route('dashboard') }}" class="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-primary-600 transition-colors">
+                            <div class="w-7 h-7 bg-primary-100 text-primary-700 rounded-full flex items-center justify-center text-xs font-bold">{{ auth()->user()->initials }}</div>
+                            <span class="hidden sm:inline">{{ auth()->user()->full_name }}</span>
+                        </a>
+                        <form method="POST" action="{{ route('logout') }}" class="inline">
+                            @csrf
+                            <button type="submit" class="text-sm text-gray-500 hover:text-danger-600 transition-colors">Déconnexion</button>
+                        </form>
                     @endguest
                 </div>
             </div>
@@ -54,280 +49,321 @@
 
     <main>
         {{-- Hero Section --}}
-        <section class="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary-50 via-white to-primary-100 overflow-hidden">
-            <div class="absolute inset-0 opacity-5">
-                <div class="absolute top-20 left-10 w-72 h-72 bg-primary-400 rounded-full blur-3xl"></div>
-                <div class="absolute bottom-10 right-20 w-96 h-96 bg-primary-300 rounded-full blur-3xl"></div>
+        <section class="relative pt-32 pb-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary-50 via-white to-primary-50 overflow-hidden">
+            <div class="absolute inset-0 opacity-[0.03]">
+                <div class="absolute top-20 left-10 w-72 h-72 bg-primary-500 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-10 right-20 w-96 h-96 bg-primary-400 rounded-full blur-3xl"></div>
             </div>
             <div class="max-w-7xl mx-auto relative">
                 <div class="text-center max-w-4xl mx-auto">
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight leading-tight">
-                        Plateforme de gestion
-                        <span class="text-primary-600">scolaire moderne</span>
+                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary-50 border border-primary-200 rounded-full text-sm text-primary-700 font-medium mb-8">
+                        <span class="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></span>
+                        Plateforme éducative nouvelle génération
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight leading-[1.1]">
+                        Apprenez avec les
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-400">meilleurs enseignants</span>
                     </h1>
                     <p class="mt-6 text-lg sm:text-xl text-gray-500 max-w-3xl mx-auto leading-relaxed">
-                        Un système ERP + LMS complet pour les établissements éducatifs. Gérez les étudiants, enseignants, classes, présences, paiements et plus — le tout en un seul endroit.
+                        Accédez à des cours de qualité dispensés par des experts. Choisissez parmi nos forfaits complets ou inscrivez-vous à des cours individuels selon vos besoins.
                     </p>
                     <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-                        <a href="{{ route('register') }}" class="btn-primary btn-lg shadow-lg shadow-primary-200">Essai gratuit</a>
-                        <a href="#features" class="btn-outline btn-lg">En savoir plus</a>
+                        <a href="{{ route('register') }}" class="btn-primary btn-lg shadow-lg shadow-primary-200/50">
+                            Commencer gratuitement
+                            <svg class="w-5 h-5 ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                        </a>
+                        <a href="#forfaits" class="btn-outline btn-lg">Voir les forfaits</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        {{-- Stats Bar --}}
-        <section class="py-12 px-4 sm:px-6 lg:px-8 bg-white border-y border-gray-100">
+        {{-- Section Bundles --}}
+        @if($bundles->count() > 0)
+        <section id="forfaits" class="py-24 px-4 sm:px-6 lg:px-8 bg-white">
             <div class="max-w-7xl mx-auto">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div class="text-center p-4">
-                        <div class="text-3xl font-bold text-primary-600">5,000+</div>
-                        <div class="text-sm text-gray-500 mt-1">Étudiants</div>
-                    </div>
-                    <div class="text-center p-4">
-                        <div class="text-3xl font-bold text-primary-600">500+</div>
-                        <div class="text-sm text-gray-500 mt-1">Enseignants</div>
-                    </div>
-                    <div class="text-center p-4">
-                        <div class="text-3xl font-bold text-primary-600">200+</div>
-                        <div class="text-sm text-gray-500 mt-1">Classes</div>
-                    </div>
-                    <div class="text-center p-4">
-                        <div class="text-3xl font-bold text-primary-600">50+</div>
-                        <div class="text-sm text-gray-500 mt-1">Établissements</div>
-                    </div>
+                <div class="text-center mb-14">
+                    <span class="text-sm font-semibold text-primary-600 uppercase tracking-widest">Forfaits complets</span>
+                    <h2 class="mt-3 text-3xl sm:text-4xl font-bold text-gray-900">Choisissez votre programme</h2>
+                    <p class="mt-4 text-gray-500 text-lg max-w-2xl mx-auto">Économisez sur l'inscription à un forfait complet de cours avec nos tarifs préférentiels</p>
                 </div>
-            </div>
-        </section>
-
-        {{-- Features Section --}}
-        <section id="features" class="py-20 bg-gray-50 px-4 sm:px-6 lg:px-8">
-            <div class="max-w-7xl mx-auto">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">Tout ce dont vous avez besoin pour gérer votre école</h2>
-                    <p class="mt-4 text-gray-500 text-lg">Solution ERP + LMS complète pour les établissements éducatifs modernes</p>
-                </div>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="card p-6 hover:shadow-lg transition-shadow">
-                        <div class="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center mb-4">
-                            <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900">Gestion académique</h3>
-                        <p class="mt-2 text-sm text-gray-500">Gérez facilement les niveaux, classes, cours et emplois du temps.</p>
-                    </div>
-                    <div class="card p-6 hover:shadow-lg transition-shadow">
-                        <div class="w-12 h-12 bg-success-100 rounded-xl flex items-center justify-center mb-4">
-                            <svg class="w-6 h-6 text-success-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900">Portail étudiant & enseignant</h3>
-                        <p class="mt-2 text-sm text-gray-500">Tableaux de bord dédiés pour les étudiants, enseignants et parents.</p>
-                    </div>
-                    <div class="card p-6 hover:shadow-lg transition-shadow">
-                        <div class="w-12 h-12 bg-warning-100 rounded-xl flex items-center justify-center mb-4">
-                            <svg class="w-6 h-6 text-warning-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h3v6m6-6a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900">Paiements & facturation</h3>
-                        <p class="mt-2 text-sm text-gray-500">Suivez les paiements, générez des factures et gérez les finances.</p>
-                    </div>
-                    <div class="card p-6 hover:shadow-lg transition-shadow">
-                        <div class="w-12 h-12 bg-danger-100 rounded-xl flex items-center justify-center mb-4">
-                            <svg class="w-6 h-6 text-danger-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900">Suivi des présences</h3>
-                        <p class="mt-2 text-sm text-gray-500">Marquez et suivez les présences avec des analyses détaillées.</p>
-                    </div>
-                    <div class="card p-6 hover:shadow-lg transition-shadow">
-                        <div class="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center mb-4">
-                            <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900">Système de quiz</h3>
-                        <p class="mt-2 text-sm text-gray-500">Créez des quiz avec correction automatique pour les questions à choix multiples.</p>
-                    </div>
-                    <div class="card p-6 hover:shadow-lg transition-shadow">
-                        <div class="w-12 h-12 bg-success-100 rounded-xl flex items-center justify-center mb-4">
-                            <svg class="w-6 h-6 text-success-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900">Annonces</h3>
-                        <p class="mt-2 text-sm text-gray-500">Tenez tout le monde informé avec des annonces ciblées.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        {{-- CTA Section: Start Learning Today --}}
-        <section class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-primary-600 to-primary-800 text-white">
-            <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-3xl sm:text-4xl font-extrabold">Commencez à apprendre dès aujourd'hui</h2>
-                <p class="mt-4 text-primary-100 text-lg max-w-2xl mx-auto">Rejoignez des milliers d'étudiants qui apprennent déjà avec nous. Accédez à une éducation de qualité dispensée par des enseignants experts.</p>
-                <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="{{ route('register') }}" class="btn-lg bg-white text-primary-600 hover:bg-gray-100 font-semibold px-8 py-3 rounded-xl shadow-lg">S'inscrire maintenant</a>
-                    <a href="{{ route('courses') }}" class="btn-lg border-2 border-white text-white hover:bg-white hover:text-primary-600 font-semibold px-8 py-3 rounded-xl">Parcourir les cours</a>
-                </div>
-            </div>
-        </section>
-
-        {{-- Courses Preview Section --}}
-        <section id="courses" class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
-            <div class="max-w-7xl mx-auto">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">Classes en vedette</h2>
-                    <p class="mt-4 text-gray-500 text-lg">Découvrez nos classes les plus populaires et commencez à apprendre dès aujourd'hui</p>
-                </div>
-                @if(isset($publicClasses) && $publicClasses->count() > 0)
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        @foreach($publicClasses->take(6) as $class)
-                            <div class="card overflow-hidden hover:shadow-xl transition-all duration-300 group">
-                                <div class="h-2 bg-gradient-to-r from-primary-500 to-primary-600"></div>
-                                <div class="p-6">
-                                    <div class="flex items-start justify-between mb-3">
-                                        <div>
-                                            <div class="flex items-center gap-2 text-xs text-gray-500 mb-1">
-                                                <span class="badge-gray">{{ $class->grade?->level?->name }}</span>
-                                                <span>{{ $class->grade?->name }}</span>
-                                            </div>
-                                            <h3 class="font-bold text-gray-900 text-xl">{{ $class->name }}</h3>
-                                        </div>
-                                        @if($class->remaining_seats <= 0)
-                                            <span class="badge-danger flex-shrink-0">Complet</span>
-                                        @elseif($class->remaining_seats <= 5)
-                                            <span class="badge-warning flex-shrink-0">Plus que {{ $class->remaining_seats }} places</span>
-                                        @else
-                                            <span class="badge-success flex-shrink-0">{{ $class->remaining_seats }} places</span>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @foreach($bundles as $bundle)
+                    <div class="group relative bg-white rounded-2xl border border-gray-200 hover:border-primary-200 hover:shadow-xl hover:shadow-primary-100/50 transition-all duration-300 overflow-hidden">
+                        @if($bundle->has_bundle_discount && $bundle->bundle_savings_percent > 0)
+                            <div class="absolute top-4 right-4 z-10">
+                                <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-danger-500 text-white text-xs font-bold rounded-full">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01"/></svg>
+                                    Économisez {{ $bundle->bundle_savings_percent }}%
+                                </span>
+                            </div>
+                        @endif
+                        <div class="h-2 bg-gradient-to-r from-primary-500 to-primary-600"></div>
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 text-xs text-gray-500 mb-2">
+                                <span class="bg-gray-100 px-2 py-1 rounded-md font-medium">{{ $bundle->grade?->level?->name }}</span>
+                                <span>{{ $bundle->grade?->name }}</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900">{{ $bundle->name }}</h3>
+                            @if($bundle->description)
+                                <p class="mt-2 text-sm text-gray-500 line-clamp-2">{{ $bundle->description }}</p>
+                            @endif
+                            <div class="mt-4 bg-gray-50 rounded-xl p-4">
+                                <div class="flex items-center justify-between text-sm mb-3">
+                                    <span class="text-gray-600 font-medium">Cours inclus ({{ $bundle->courses->count() }})</span>
+                                    <span class="text-xs text-gray-400">avec certificat</span>
+                                </div>
+                                <ul class="space-y-2">
+                                    @foreach($bundle->courses->take(4) as $course)
+                                    <li class="flex items-center gap-2 text-sm">
+                                        <svg class="w-4 h-4 text-success-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                        <span class="text-gray-700">{{ $course->name }}</span>
+                                        <span class="text-xs text-gray-400 ml-auto">{{ $course->teacher->full_name ?? '' }}</span>
+                                    </li>
+                                    @endforeach
+                                    @if($bundle->courses->count() > 4)
+                                    <li class="text-sm text-primary-600 font-medium pt-1">+ {{ $bundle->courses->count() - 4 }} autres cours</li>
+                                    @endif
+                                </ul>
+                            </div>
+                            <div class="mt-5 flex items-end justify-between">
+                                <div>
+                                    @if($bundle->has_bundle_discount)
+                                        <span class="text-sm text-gray-400 line-through">{{ number_format($bundle->total_courses_price, 2) }} DA</span>
+                                        <div class="text-2xl font-extrabold text-danger-600">{{ number_format($bundle->bundle_discounted_price, 2) }} DA</div>
+                                        <p class="text-xs text-gray-400">au lieu de {{ number_format($bundle->total_courses_price, 2) }} DA</p>
+                                    @elseif($bundle->bundle_price)
+                                        <div class="text-2xl font-extrabold text-gray-900">{{ number_format($bundle->bundle_price, 2) }} DA</div>
+                                        <p class="text-xs text-gray-400">Forfait {{ $bundle->courses->count() }} cours</p>
+                                    @else
+                                        <div class="text-2xl font-extrabold text-gray-900">{{ number_format($bundle->total_courses_price, 2) }} DA</div>
+                                        <p class="text-xs text-gray-400">Prix total des cours</p>
+                                    @endif
+                                </div>
+                                <div class="flex gap-2">
+                                    <a href="{{ route('bundles.details', $bundle->id) }}" class="btn-outline btn-sm">Détails</a>
+                                    @auth
+                                        @if(auth()->user()->isStudent())
+                                        <form method="POST" action="{{ route('courses.enroll-bundle', $bundle) }}">
+                                            @csrf
+                                            <button type="submit" class="btn-primary btn-sm">S'inscrire</button>
+                                        </form>
                                         @endif
-                                    </div>
-                                    <p class="text-sm text-gray-500 line-clamp-2 mb-4">{{ $class->description ?? 'Aucune description' }}</p>
-                                    <div class="bg-gray-50 rounded-lg p-3 mb-4">
-                                        <p class="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">Cours inclus</p>
-                                        <ul class="space-y-1">
-                                            @foreach($class->courses->take(3) as $course)
-                                                <li class="text-sm text-gray-700 flex items-center gap-2">
-                                                    <svg class="w-4 h-4 text-success-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                                    {{ $course->name }}
-                                                    @if($course->price)
-                                                        <span class="text-xs text-gray-400 ml-auto">{{ number_format($course->price, 2) }} DA</span>
-                                                    @endif
-                                                </li>
-                                            @endforeach
-                                            @if($class->courses->count() > 3)
-                                                <li class="text-sm text-primary-600 font-medium">+ {{ $class->courses->count() - 3 }} autres cours</li>
-                                            @endif
-                                        </ul>
-                                    </div>
-                                    <div class="flex items-center justify-between">
-                                        <div>
-                                            @if($class->has_reduction)
-                                                <span class="text-sm text-gray-400 line-through">{{ number_format($class->total_courses_price, 2) }} DA</span>
-                                                <span class="text-2xl font-bold text-danger-600 ml-2">{{ number_format($class->reduction_price, 2) }} DA</span>
-                                            @else
-                                                <span class="text-2xl font-bold text-gray-900">{{ number_format($class->total_courses_price, 2) }} DA</span>
-                                            @endif
-                                            <p class="text-xs text-gray-400">Forfait {{ $class->courses->count() }} cours</p>
-                                        </div>
-                                        <a href="{{ route('courses.details', $class->id) }}" class="btn-primary btn-sm">Détails</a>
-                                    </div>
+                                    @else
+                                        <a href="{{ route('login') }}?redirect={{ urlencode(route('bundles.details', $bundle->id)) }}" class="btn-primary btn-sm">S'inscrire</a>
+                                    @endauth
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
-                    <div class="text-center mt-10">
-                        <a href="{{ route('courses') }}" class="btn-primary btn-lg">Voir tous les cours</a>
-                    </div>
-                @else
-                    <div class="text-center py-16 text-gray-500 bg-white rounded-2xl">
-                        <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                        <p class="text-lg font-medium">Aucune classe disponible pour le moment</p>
-                        <p class="text-sm mt-1">Revenez bientôt pour découvrir de nouvelles offres de cours.</p>
-                    </div>
-                @endif
-            </div>
-        </section>
-
-        {{-- CTA Section: Join Our Teaching Team --}}
-        <section id="teachers" class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-            <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-3xl sm:text-4xl font-extrabold">Rejoignez notre équipe pédagogique</h2>
-                <p class="mt-4 text-gray-300 text-lg max-w-2xl mx-auto">Passionné par l'éducation ? Nous recherchons des enseignants talentueux pour rejoindre notre communauté grandissante d'éducateurs.</p>
-                <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="{{ route('teacher.register') }}" class="btn-lg bg-white text-gray-900 hover:bg-gray-100 font-semibold px-8 py-3 rounded-xl shadow-lg">Postulez maintenant</a>
-                    <a href="#benefits" class="btn-lg border-2 border-white text-white hover:bg-white hover:text-gray-900 font-semibold px-8 py-3 rounded-xl">Voir les avantages</a>
-                </div>
-            </div>
-        </section>
-
-        {{-- Teacher Registration Section --}}
-        <section id="benefits" class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-            <div class="max-w-7xl mx-auto">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">Pourquoi enseigner avec SchoolERP ?</h2>
-                    <p class="mt-4 text-gray-500 text-lg">Nous fournissons tout ce dont vous avez besoin pour offrir une éducation exceptionnelle</p>
-                </div>
-                <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                    <div class="text-center p-6">
-                        <div class="w-14 h-14 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-7 h-7 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         </div>
-                        <h3 class="font-semibold text-gray-900">Horaires flexibles</h3>
-                        <p class="mt-2 text-sm text-gray-500">Enseignez selon votre propre emploi du temps. Nous nous adaptons à vos disponibilités.</p>
                     </div>
-                    <div class="text-center p-6">
-                        <div class="w-14 h-14 bg-success-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-7 h-7 text-success-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2-1.343-2-3-2zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        </div>
-                        <h3 class="font-semibold text-gray-900">Rémunération attractive</h3>
-                        <p class="mt-2 text-sm text-gray-500">Rémunération compétitive avec opportunités d'évolution et primes.</p>
-                    </div>
-                    <div class="text-center p-6">
-                        <div class="w-14 h-14 bg-warning-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-7 h-7 text-warning-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                        </div>
-                        <h3 class="font-semibold text-gray-900">Outils modernes</h3>
-                        <p class="mt-2 text-sm text-gray-500">Accédez à notre plateforme LMS de pointe avec des outils pédagogiques puissants.</p>
-                    </div>
+                    @endforeach
                 </div>
                 <div class="text-center mt-10">
-                    <a href="{{ route('teacher.register') }}" class="btn-primary btn-lg">Postulez maintenant</a>
+                    <a href="{{ route('courses') }}" class="btn-primary btn-lg">Explorer tous les programmes</a>
+                </div>
+            </div>
+        </section>
+        @endif
+
+        {{-- Individual Courses --}}
+        @if($featuredCourses->count() > 0)
+        <section id="cours" class="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-14">
+                    <span class="text-sm font-semibold text-primary-600 uppercase tracking-widest">Cours individuels</span>
+                    <h2 class="mt-3 text-3xl sm:text-4xl font-bold text-gray-900">Apprenez à votre rythme</h2>
+                    <p class="mt-4 text-gray-500 text-lg max-w-2xl mx-auto">Inscrivez-vous aux cours de votre choix, indépendamment les uns des autres</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach($featuredCourses as $course)
+                    <div class="group bg-white rounded-xl border border-gray-200 hover:border-primary-200 hover:shadow-lg transition-all duration-300 overflow-hidden">
+                        @if($course->thumbnail)
+                            <div class="h-40 bg-gray-100 overflow-hidden">
+                                <img src="{{ asset('storage/' . $course->thumbnail) }}" alt="{{ $course->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            </div>
+                        @else
+                            <div class="h-40 bg-gradient-to-br from-primary-100 to-primary-50 flex items-center justify-center">
+                                <svg class="w-12 h-12 text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                            </div>
+                        @endif
+                        <div class="p-5">
+                            <div class="flex items-center gap-2 text-xs text-gray-500 mb-2">
+                                <span class="bg-gray-100 px-2 py-1 rounded font-medium">{{ $course->section?->grade?->level?->name }}</span>
+                                @if($course->section)
+                                <span>{{ $course->section->name }}</span>
+                                @endif
+                            </div>
+                            <h3 class="font-bold text-gray-900">{{ $course->name }}</h3>
+                            <div class="mt-3 flex items-center gap-2 text-sm text-gray-500">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                <span>{{ $course->teacher->full_name ?? 'À déterminer' }}</span>
+                            </div>
+                            <div class="mt-4 flex items-center gap-4 text-sm text-gray-500">
+                                @if($course->duration)
+                                <div class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    <span>{{ $course->duration }}</span>
+                                </div>
+                                @endif
+                                @if($course->max_students)
+                                <div class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                    <span>{{ $course->remaining_seats }} places</span>
+                                </div>
+                                @endif
+                            </div>
+                            <div class="mt-5 flex items-center justify-between">
+                                <div>
+                                    @if($course->price)
+                                    <span class="text-xl font-bold text-gray-900">{{ number_format($course->price, 2) }} DA</span>
+                                    @endif
+                                </div>
+                                @auth
+                                    @if(auth()->user()->isStudent())
+                                    <form method="POST" action="{{ route('courses.enroll-course', $course) }}">
+                                        @csrf
+                                        <button type="submit" class="btn-primary btn-sm">S'inscrire</button>
+                                    </form>
+                                    @endif
+                                @else
+                                    <a href="{{ route('login') }}?redirect={{ urlencode(route('courses')) }}" class="btn-primary btn-sm">S'inscrire</a>
+                                @endauth
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+        @endif
+
+        {{-- Stats Bar --}}
+        <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white border-y border-gray-100">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="text-center">
+                        <div class="text-3xl sm:text-4xl font-bold text-primary-600">5,000+</div>
+                        <div class="text-sm text-gray-500 mt-1">Étudiants inscrits</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl sm:text-4xl font-bold text-primary-600">500+</div>
+                        <div class="text-sm text-gray-500 mt-1">Enseignants experts</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl sm:text-4xl font-bold text-primary-600">200+</div>
+                        <div class="text-sm text-gray-500 mt-1">Cours disponibles</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl sm:text-4xl font-bold text-primary-600">98%</div>
+                        <div class="text-sm text-gray-500 mt-1">Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- Why Choose Us --}}
+        <section class="py-24 px-4 sm:px-6 lg:px-8 bg-white">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <span class="text-sm font-semibold text-primary-600 uppercase tracking-widest">Pourquoi nous choisir</span>
+                    <h2 class="mt-3 text-3xl sm:text-4xl font-bold text-gray-900">Une plateforme conçue pour l'excellence</h2>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <div class="text-center p-8">
+                        <div class="w-14 h-14 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                            <svg class="w-7 h-7 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">Enseignants qualifiés</h3>
+                        <p class="mt-2 text-sm text-gray-500 leading-relaxed">Des experts passionnés sélectionnés pour leur excellence pédagogique et leur expérience.</p>
+                    </div>
+                    <div class="text-center p-8">
+                        <div class="w-14 h-14 bg-success-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                            <svg class="w-7 h-7 text-success-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">Flexibilité totale</h3>
+                        <p class="mt-2 text-sm text-gray-500 leading-relaxed">Cours individuels ou forfaits complets. Apprenez à votre rythme, selon vos disponibilités.</p>
+                    </div>
+                    <div class="text-center p-8">
+                        <div class="w-14 h-14 bg-warning-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                            <svg class="w-7 h-7 text-warning-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">Suivi personnalisé</h3>
+                        <p class="mt-2 text-sm text-gray-500 leading-relaxed">Tableau de bord dédié, suivi des présences, quiz interactifs et rapports détaillés.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- Student CTA --}}
+        <section class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-primary-600 to-primary-800 text-white">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl sm:text-4xl font-extrabold">Prêt à commencer votre parcours ?</h2>
+                <p class="mt-4 text-primary-100 text-lg max-w-2xl mx-auto">Rejoignez des milliers d'apprenants et donnez un nouvel élan à votre éducation.</p>
+                <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="{{ route('register') }}" class="inline-flex items-center gap-2 btn-lg bg-white text-primary-600 hover:bg-gray-100 font-semibold px-8 py-3.5 rounded-xl shadow-lg">
+                        Créer mon compte
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                    </a>
+                    <a href="{{ route('courses') }}" class="inline-flex items-center gap-2 btn-lg border-2 border-white text-white hover:bg-white hover:text-primary-600 font-semibold px-8 py-3.5 rounded-xl">
+                        Parcourir les cours
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        {{-- Teacher CTA --}}
+        <section class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900 text-white">
+            <div class="max-w-4xl mx-auto text-center">
+                <span class="text-sm font-semibold text-primary-400 uppercase tracking-widest">Enseignants</span>
+                <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold">Rejoignez notre équipe pédagogique</h2>
+                <p class="mt-4 text-gray-300 text-lg max-w-2xl mx-auto">Vous êtes passionné par l'enseignement ? Nous offrons une plateforme moderne, une rémunération attractive et une communauté dynamique.</p>
+                <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="{{ route('teacher.register') }}" class="inline-flex items-center gap-2 btn-lg bg-white text-gray-900 hover:bg-gray-100 font-semibold px-8 py-3.5 rounded-xl shadow-lg">
+                        Postuler maintenant
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                    </a>
                 </div>
             </div>
         </section>
 
         {{-- Footer --}}
-        <footer class="py-12 px-4 sm:px-6 lg:px-8 bg-gray-900 text-gray-400">
+        <footer class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-900 text-gray-400">
             <div class="max-w-7xl mx-auto">
-                <div class="grid md:grid-cols-4 gap-8">
-                    <div>
+                <div class="grid md:grid-cols-4 gap-10">
+                    <div class="md:col-span-1">
                         <div class="flex items-center gap-3 mb-4">
                             <div class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
                                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                             </div>
-                            <span class="text-lg font-bold text-white">SchoolERP</span>
+                            <span class="text-lg font-bold text-white">{{ config('app.name') }}</span>
                         </div>
-                        <p class="text-sm leading-relaxed">Plateforme moderne de gestion scolaire pour les établissements éducatifs. Autonomiser les enseignants, les étudiants et les parents.</p>
+                        <p class="text-sm leading-relaxed">Plateforme moderne de gestion scolaire et d'apprentissage en ligne.</p>
                     </div>
                     <div>
-                        <h4 class="font-semibold text-white mb-4">Plateforme</h4>
-                        <ul class="space-y-2 text-sm">
-                            <li><a href="#features" class="hover:text-white transition-colors">Fonctionnalités</a></li>
+                        <h4 class="font-semibold text-white mb-4 text-sm uppercase tracking-wider">Plateforme</h4>
+                        <ul class="space-y-3 text-sm">
                             <li><a href="{{ route('courses') }}" class="hover:text-white transition-colors">Cours</a></li>
-                            <li><a href="{{ route('register') }}" class="hover:text-white transition-colors">Tarifs</a></li>
+                            <li><a href="#forfaits" class="hover:text-white transition-colors">Forfaits</a></li>
+                            <li><a href="#cours" class="hover:text-white transition-colors">Cours individuels</a></li>
                         </ul>
                     </div>
                     <div>
-                        <h4 class="font-semibold text-white mb-4">Enseignants</h4>
-                        <ul class="space-y-2 text-sm">
+                        <h4 class="font-semibold text-white mb-4 text-sm uppercase tracking-wider">Enseignants</h4>
+                        <ul class="space-y-3 text-sm">
                             <li><a href="{{ route('teacher.register') }}" class="hover:text-white transition-colors">Enseigner avec nous</a></li>
-                            <li><a href="#benefits" class="hover:text-white transition-colors">Avantages</a></li>
+                            <li><a href="{{ route('teacher.login') }}" class="hover:text-white transition-colors">Espace enseignant</a></li>
                         </ul>
                     </div>
                     <div>
-                        <h4 class="font-semibold text-white mb-4">Société</h4>
-                        <ul class="space-y-2 text-sm">
-                            <li><a href="#" class="hover:text-white transition-colors">À propos</a></li>
-                            <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                        <h4 class="font-semibold text-white mb-4 text-sm uppercase tracking-wider">Liens utiles</h4>
+                        <ul class="space-y-3 text-sm">
+                            <li><a href="{{ route('register') }}" class="hover:text-white transition-colors">Créer un compte</a></li>
+                            <li><a href="{{ route('login') }}" class="hover:text-white transition-colors">Se connecter</a></li>
                         </ul>
                     </div>
                 </div>
-                <div class="mt-10 pt-8 border-t border-gray-800 text-center text-sm">
-                    &copy; {{ date('Y') }} SchoolERP. Tous droits réservés.
+                <div class="mt-12 pt-8 border-t border-gray-800 text-center text-sm">
+                    &copy; {{ date('Y') }} {{ config('app.name') }}. Tous droits réservés.
                 </div>
             </div>
         </footer>

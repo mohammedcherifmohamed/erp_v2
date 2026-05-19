@@ -59,9 +59,19 @@ class User extends Authenticatable
         return $this->hasMany(Enrollment::class, 'student_id');
     }
 
+    public function sectionEnrollments()
+    {
+        return $this->hasMany(SectionEnrollment::class, 'student_id');
+    }
+
     public function approvedEnrollments()
     {
         return $this->hasMany(Enrollment::class, 'approved_by');
+    }
+
+    public function approvedSectionEnrollments()
+    {
+        return $this->hasMany(SectionEnrollment::class, 'approved_by');
     }
 
     public function coursesTeaching()
